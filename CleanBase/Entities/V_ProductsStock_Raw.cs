@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CleanBase.Entities
+{
+    public class V_ProductsStock_Raw : EntityRoot
+    {
+        public string? ArabicName { get; set; }
+        public string? EnglishName { get; set; }
+        public decimal? Weight { get; set; }
+        public decimal? Density { get; set; }
+        public decimal? Volume { get; set; }
+    }
+}
