@@ -9,8 +9,13 @@ namespace CleanBase.Entities
 {
     public class CostCenter: EntityRoot
     {
+
         public string? CostCenterName { get; set; }
         public string? CostCenterNameEn { get; set; }
+        public string? CostCenterTypesId { get; set; }
+        public string? AccountNo { get; set; }
+        public decimal? LastSerial { get; set; }
+        public string? ParentId { get; set; }
 
     }
 }

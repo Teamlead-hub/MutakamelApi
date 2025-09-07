@@ -782,6 +782,13 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<V_WeeklyPlanDet>().HasOne(r => r.WeeklyPlanMain).WithMany(t => t.WeeklyPlanDet).HasForeignKey(t => t.WeeklyPlanMainId).OnDelete(DeleteBehavior.Cascade);
 
 
+
+
+            modelBuilder.Entity<CostCenterElements>().ToTable("CostCenterElements");
+            modelBuilder.Entity<CostCenterTypes>().ToTable("CostCenterTypes");
+            modelBuilder.Entity<CostCenterDistribution>().ToTable("CostCenterDistribution");
+            modelBuilder.Entity<CostCenterDistributionDet>().ToTable("CostCenterDistributionDet");
+            modelBuilder.Entity<CostCenterDistributionDet>().HasOne(r => r.CostCenterDistribution).WithMany(i => i.CostCenterDistributionDet).HasForeignKey(t => t.CostCenterDistributionId).OnDelete(DeleteBehavior.Cascade);
             EntityPropertyMapper(modelBuilder);
 
         }

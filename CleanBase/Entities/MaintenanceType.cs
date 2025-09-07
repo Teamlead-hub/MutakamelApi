@@ -8,8 +8,8 @@ namespace CleanBase.Entities
 {
     public class MaintenanceType : EntityRoot
     {
-        public string TypeNameAR { get; set; }
-        public string TypeNameEn { get; set; }
+        public string? TypeNameAR { get; set; }
+        public string? TypeNameEn { get; set; }
        
 
     }

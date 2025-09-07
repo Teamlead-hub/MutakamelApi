@@ -25,6 +25,10 @@ namespace CleanBase.Entities
         public string? JobName { get; set; }
         public int? WebPagesPermissionsId { get; set; }
         public int? OrderBySig { get; set; }
+        [Column(TypeName = "nvarchar(MAX)")]
+        public string? Note { get; set; }
+        public string? WebPageNo { get; set; }
+        public string? WebPagesUsersId { get; set; }
 
 
 
