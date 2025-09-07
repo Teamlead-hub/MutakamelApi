@@ -28,18 +28,15 @@ namespace CleanBase.Entities
         public string? ManagerPhoneNo { get; set; }
         public string? SalesMangerPhoneNo { get; set; }
         public string? SalesRepPhoneNo { get; set; }
-        public string? TaxNo { get; set; }
-        public string? Accounts_No { get; set; }
 
         public List<SupContactInfo> SupContactInfo { get; set; } = new List<SupContactInfo>();
-        public List<SupContractInfo> SupContractInfo { get; set; } = new List<SupContractInfo>(); 
+        public List<SupContractInfo> SupContractInfo { get; set; } = new List<SupContractInfo>();
         public List<SupEvaluationInfo> SupEvaluationInfo { get; set; } = new List<SupEvaluationInfo>();
-       // public List<SupComplaintInfo> supComplaintInfo { get; set; } = new List<SupComplaintInfo>();
+        // public List<SupComplaintInfo> supComplaintInfo { get; set; } = new List<SupComplaintInfo>();
     }
 
 }
 
-    
-     
-    
-      
+
+
+

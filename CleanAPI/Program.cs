@@ -129,6 +129,10 @@ namespace CleanAPI
             builder.Services.AddScoped<IProcedureResultDtoService, ProcedureResultDtoService>();
             builder.Services.AddScoped<IProcedureResultListDtoService, ProcedureResultListDtoService>();
             builder.Services.AddScoped<ICostCenterService, CostCenterService>();
+            builder.Services.AddScoped<ICostCenterElements, CostCenterElementsService>();
+            builder.Services.AddScoped<ICostCenterTypes, CostCenterTypesService>();
+            builder.Services.AddScoped<ICostCenterDistribution, CostCenterDistributionService>();
+            builder.Services.AddScoped<ICostCenterDistributionDet, CostCenterDistributionDetService>();
             builder.Services.AddScoped<Iv_AcGroups, v_AcGroupsService>();
             builder.Services.AddScoped<IAcGroups, AcGroupsService>();
             builder.Services.AddScoped<IVouchers, VouchersService>();
@@ -752,6 +756,10 @@ namespace CleanAPI
             builder.EntitySet<v_AcGroups>("v_AcGroups");
             builder.EntitySet<AcGroups>("AcGroups");
             builder.EntitySet<CostCenter>("CostCenter");
+            builder.EntitySet<CostCenterElements>("CostCenterElements");
+            builder.EntitySet<CostCenterTypes>("CostCenterTypes");
+            builder.EntitySet<CostCenterDistribution>("CostCenterDistribution");
+            builder.EntitySet<CostCenterDistributionDet>("CostCenterDistributionDet");
             builder.EntitySet<Vouchers>("Vouchers");
             builder.EntitySet<Trans>("Trans");
             builder.EntitySet<V_Vouchers>("V_Vouchers");

@@ -8,7 +8,7 @@ namespace CleanBase.Entities
 {
     public class MaintenanceFaults:EntityRoot
     {
-        public string FaultsNameAr { get; set; }
-        public string FaultsNameEn { get; set; }
+        public string? FaultsNameAr { get; set; }
+        public string? FaultsNameEn { get; set; }
     }
 }

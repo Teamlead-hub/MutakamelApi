@@ -20,6 +20,7 @@ namespace CleanBase.Entities
         public string? JobName { get; set; }
         public string? ResponsiblePerson { get; set; }
         public int? WebPagesPermissionsId { get; set; }
+        public string? WebPageNo { get; set; }
         public WebPagesPermissions? WebPagesPermissions { get; set; }
     }
 }
