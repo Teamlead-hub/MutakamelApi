@@ -789,6 +789,9 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<CostCenterDistribution>().ToTable("CostCenterDistribution");
             modelBuilder.Entity<CostCenterDistributionDet>().ToTable("CostCenterDistributionDet");
             modelBuilder.Entity<CostCenterDistributionDet>().HasOne(r => r.CostCenterDistribution).WithMany(i => i.CostCenterDistributionDet).HasForeignKey(t => t.CostCenterDistributionId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<V_voucherAccounts>().ToView("V_voucherAccounts");
+
             EntityPropertyMapper(modelBuilder);
 
         }

@@ -631,6 +631,7 @@ namespace CleanAPI
 
             builder.Services.AddScoped<IV_WeeklyPlanMainService, V_WeeklyPlanMainService>();
             builder.Services.AddScoped<IV_WeeklyPlanDetService, V_WeeklyPlanDetService>();
+            builder.Services.AddScoped<IV_voucherAccounts, V_voucherAccountsService>();
 
             // 🔹 Load Allowed Origins from appsettings.json
             var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
@@ -1238,6 +1239,7 @@ namespace CleanAPI
 
             builder.EntitySet<V_WeeklyPlanMain>("V_WeeklyPlanMain");
             builder.EntitySet<V_WeeklyPlanDet>("V_WeeklyPlanDet");
+            builder.EntitySet<V_voucherAccounts>("V_voucherAccounts");
 
             return builder.GetEdmModel();
         }
