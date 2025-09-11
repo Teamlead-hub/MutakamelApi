@@ -243,6 +243,9 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<ProductsRaw>().ToTable("ProductsRaw");
             modelBuilder.Entity<ProductsRaw>().HasOne(r => r.Product).WithMany(p => p.ProductsRaw).OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<ProductsBarcodes>().ToTable("ProductsBarcodes");
+            modelBuilder.Entity<ProductsBarcodes>().HasOne(r => r.Product).WithMany(p => p.ProductsBarcodes).OnDelete(DeleteBehavior.Cascade);
+
             //Views
             //To Get All from the views
             modelBuilder.Entity<V_Products>().ToView("V_Products");
@@ -264,6 +267,9 @@ namespace CleanOperation.DataAccess
 
             modelBuilder.Entity<V_ProductBatches>().ToView("V_ProductBatches");
             modelBuilder.Entity<V_ProductBatches>().HasOne(r => r.Product);
+
+            modelBuilder.Entity<V_ProductsBarcodes>().ToView("V_ProductsBarcodes");
+            modelBuilder.Entity<V_ProductsBarcodes>().HasOne(r => r.Product);
 
             modelBuilder.Entity<V_ProductsStock_Raw>().ToView("V_ProductsStock_Raw");
             modelBuilder.Entity<V_ProductStock_Package>().ToView("V_ProductStock_Package");
@@ -791,6 +797,43 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<CostCenterDistributionDet>().HasOne(r => r.CostCenterDistribution).WithMany(i => i.CostCenterDistributionDet).HasForeignKey(t => t.CostCenterDistributionId).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<V_voucherAccounts>().ToView("V_voucherAccounts");
+
+            modelBuilder.Entity<Contracts>().ToTable("Contracts");
+            modelBuilder.Entity<ContractItems>().ToTable("ContractItems");
+            modelBuilder.Entity<ContractItems>().HasOne(r => r.Contracts).WithMany(i => i.contractItems).HasForeignKey(t => t.ContractsId).OnDelete(DeleteBehavior.Cascade);
+
+
+            //Cash Budget Management
+            modelBuilder.Entity<CashBalance>().ToTable("CashBalance");
+            modelBuilder.Entity<CashBudget>().ToTable("CashBudget");
+            modelBuilder.Entity<CashBudgetItems>().ToTable("CashBudgetItems");
+            modelBuilder.Entity<CashInflows>().ToTable("CashInflows");
+            modelBuilder.Entity<CashOutflows>().ToTable("CashOutflows");
+            modelBuilder.Entity<CashInflows>()
+                .HasOne(c => c.BudgetItem)
+                .WithMany()
+                .HasForeignKey(c => c.BudgetItemID);
+            modelBuilder.Entity<CashOutflows>()
+                .HasOne(c => c.BudgetItem)
+                .WithMany()
+                .HasForeignKey(c => c.BudgetItemID);
+
+            modelBuilder.Entity<LetterOfCredit>().ToTable("LetterOfCredit");
+            modelBuilder.Entity<LcDocs>().ToTable("LcDocs");
+            modelBuilder.Entity<LcDocs>().HasOne(d => d.letterOfCredit).WithMany(t => t.LcDocs).HasForeignKey(d => d.LetterOfCreditId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<V_LetterOfCredit>().ToView("V_LetterOfCredit");
+            modelBuilder.Entity<V_LcDocs>().ToView("V_LcDocs");
+            modelBuilder.Entity<V_LcDocs>().HasOne(d => d.letterOfCredit).WithMany(t => t.LcDocs).HasForeignKey(d => d.LetterOfCreditId).OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<StockAssignment>().ToTable("StockAssignment");
+            modelBuilder.Entity<V_StockAssignment>().ToView("V_StockAssignment");
+            modelBuilder.Entity<V_StockAssignmentQty>().ToView("V_StockAssignmentQty");
+
+
+            modelBuilder.Entity<LC_Type>().ToTable("LC_Type");
+            modelBuilder.Entity<lC_STATUS>().ToTable("lC_STATUS");
+
 
             EntityPropertyMapper(modelBuilder);
 

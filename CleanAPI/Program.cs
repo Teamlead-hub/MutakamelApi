@@ -237,6 +237,7 @@ namespace CleanAPI
             builder.Services.AddScoped<IV_ProductsStock_RawService, V_ProductsStock_RawService>();
             builder.Services.AddScoped<IV_ProductStock_PackageService, V_ProductStock_PackageService>();
             builder.Services.AddScoped<IV_ProductBatchesService, V_ProductBatchesService>();
+            builder.Services.AddScoped<IV_ProductsBarcodesService, V_ProductsBarcodesService>();
 
 
             builder.Services.AddScoped<IProductsService, ProductsService>();
@@ -245,6 +246,7 @@ namespace CleanAPI
             builder.Services.AddScoped<IProductPackagingService, ProductPackagingService>();
             builder.Services.AddScoped<IProductPackagingMaterialService, ProductPackagingMaterialService>();
             builder.Services.AddScoped<IProductsRawService, ProductsRawService>();
+            builder.Services.AddScoped<IProductsBarcodesService, ProductsBarcodesService>();
 
 
             builder.Services.AddScoped<IV_InvStock_RawService, V_InvStock_RawService>();
@@ -633,6 +635,29 @@ namespace CleanAPI
             builder.Services.AddScoped<IV_WeeklyPlanDetService, V_WeeklyPlanDetService>();
             builder.Services.AddScoped<IV_voucherAccounts, V_voucherAccountsService>();
 
+            //Cash Budget Management
+            builder.Services.AddScoped<ICashBalanceService, CashBalanceService>();
+            builder.Services.AddScoped<ICashBudgetService, CashBudgetService>();
+            builder.Services.AddScoped<ICashBudgetItemsService, CashBudgetItemsService>();
+            builder.Services.AddScoped<ICashInflowsService, CashInflowsService>();
+            builder.Services.AddScoped<ICashOutflowsService, CashOutflowsService>();
+
+            builder.Services.AddScoped<ILetterOfCredit, LetterOfCreditService>();
+            builder.Services.AddScoped<ILcDocs, LcDocsService>();
+            builder.Services.AddScoped<IV_LetterOfCredit, V_LetterOfCreditService>();
+            builder.Services.AddScoped<IV_LcDocs, V_LcDocsService>();
+  
+
+            builder.Services.AddScoped<IStockAssignment, StockAssignmentService>();
+            builder.Services.AddScoped<IV_StockAssignment, V_StockAssignmentService>();
+            builder.Services.AddScoped<IV_StockAssignmentQty, V_StockAssignmentQtyService>();
+
+            builder.Services.AddScoped<IContractItems, ContractItemsService>();
+            builder.Services.AddScoped<IContracts, ContractsService>();
+
+            builder.Services.AddScoped<ILC_Type, LC_TypeService>();
+            builder.Services.AddScoped<IlC_STATUS, lC_STATUSService>();
+
             // 🔹 Load Allowed Origins from appsettings.json
             var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
 
@@ -855,6 +880,7 @@ namespace CleanAPI
             builder.EntitySet<V_ProductsStock_Raw>("V_ProductsStock_Raw");
             builder.EntitySet<V_ProductStock_Package>("V_ProductStock_Package");
             builder.EntitySet<V_ProductBatches>("V_ProductBatches");
+            builder.EntitySet<V_ProductsBarcodes>("V_ProductsBarcodes");
 
             builder.EntitySet<Products>("Products");
             builder.EntitySet<Productstest>("Productstest");
@@ -862,6 +888,7 @@ namespace CleanAPI
             builder.EntitySet<ProductPackaging>("ProductPackaging");
             builder.EntitySet<ProductPackagingMaterial>("ProductPackagingMaterial");
             builder.EntitySet<ProductsRaw>("ProductsRaw");
+            builder.EntitySet<ProductsBarcodes>("ProductsBarcodes");
 
 
             builder.EntitySet<V_InvStock_Raw>("V_InvStock_Raw");
@@ -1240,6 +1267,27 @@ namespace CleanAPI
             builder.EntitySet<V_WeeklyPlanMain>("V_WeeklyPlanMain");
             builder.EntitySet<V_WeeklyPlanDet>("V_WeeklyPlanDet");
             builder.EntitySet<V_voucherAccounts>("V_voucherAccounts");
+
+            builder.EntitySet<LetterOfCredit>("LetterOfCredit");
+            builder.EntitySet<LcDocs>("LcDocs");
+            builder.EntitySet<V_LetterOfCredit>("V_LetterOfCredit");
+            builder.EntitySet<V_LcDocs>("V_LcDocs");
+
+            builder.EntitySet<StockAssignment>("StockAssignment");
+            builder.EntitySet<V_StockAssignment>("V_StockAssignment");
+            builder.EntitySet<V_StockAssignmentQty>("V_StockAssignmentQty");
+
+            builder.EntitySet<CashBalance>("CashBalance");
+            builder.EntitySet<CashBudget>("CashBudget");
+            builder.EntitySet<CashBudgetItems>("CashBudgetItems");
+            builder.EntitySet<CashInflows>("CashInflows");
+            builder.EntitySet<CashOutflows>("CashOutflows");
+
+            builder.EntitySet<Contracts>("Contracts");
+            builder.EntitySet<ContractItems>("ContractItems");
+
+            builder.EntitySet<LC_Type>("LC_Type");
+            builder.EntitySet<lC_STATUS>("lC_STATUS");
 
             return builder.GetEdmModel();
         }

@@ -12,20 +12,23 @@ namespace CleanBase.Entities
     {
         public string? ProductOrderReportId { get; set; }
         public string? StockId { get; set; }
-        public string? ProductId { get; set; }
         public string? ArabicName { get; set; }
-        public string? ProductName { get; set; }
-        public decimal? ExpectedQty { get; set; }
-        public string? PackingType { get; set; }
+        public decimal? Volume { get; set; }
         public decimal? Cost { get; set; }
-        public decimal? TotalCost { get; set; }
-        public decimal? TaxRatio { get; set; }
-        public decimal? Tax { get; set; }
-        public int? StockBatchNo { get; set; }
+        public string? StockBatchNo { get; set; }
         public string? StoreNo { get; set; }
+        public decimal? TaxRatio { get; set; }
+        public string? ProductId { get; set; }
+        public string? ProductName { get; set; }
         public decimal? ActualQty { get; set; }
+        public decimal? TotalCost { get; set; }
+        public decimal? PackagingQty { get; set; }
+        public string? FinalProductName { get; set; }
+        public string? Barcode { get; set; }
+        public string? CartonBarcode { get; set; }
         public decimal? PackageQuantity { get; set; }
-        public decimal? RestQty { get; set; }
-        public decimal? WastedQty { get; set; }
+        public decimal? Weight { get; set; }
+        public decimal? StandardCost { get; set; }
+        public decimal? TotalStandardCost { get; set; }
     }
 }

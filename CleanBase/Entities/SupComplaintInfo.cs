@@ -18,7 +18,7 @@ namespace CleanBase.Entities
 
         public string? FromName { get; set; }
         public string? Adderss { get; set; }
-        public decimal? Phone { get; set; }
+        public string? Phone { get; set; }
         public string? Email { get; set; }
         public string? SupplierInfoId { get; set; }
         public string? SupplierName { get; set; }
