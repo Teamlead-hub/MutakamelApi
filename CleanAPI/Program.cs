@@ -635,6 +635,7 @@ namespace CleanAPI
             builder.Services.AddScoped<IV_WeeklyPlanDetService, V_WeeklyPlanDetService>();
             builder.Services.AddScoped<IV_voucherAccounts, V_voucherAccountsService>();
 
+
             //Cash Budget Management
             builder.Services.AddScoped<ICashBalanceService, CashBalanceService>();
             builder.Services.AddScoped<ICashBudgetService, CashBudgetService>();
@@ -657,6 +658,12 @@ namespace CleanAPI
 
             builder.Services.AddScoped<ILC_Type, LC_TypeService>();
             builder.Services.AddScoped<IlC_STATUS, lC_STATUSService>();
+
+
+            builder.Services.AddScoped<ICMvts, CMvtsService>();
+            builder.Services.AddScoped<IV_Cmvts, V_CmvtsService>();
+            builder.Services.AddScoped<ICInvvoucher, CInvvoucherService>();
+            builder.Services.AddScoped<IV_Cinvvoucher, V_CinvvoucherService>();
 
             // 🔹 Load Allowed Origins from appsettings.json
             var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
@@ -1268,6 +1275,7 @@ namespace CleanAPI
             builder.EntitySet<V_WeeklyPlanDet>("V_WeeklyPlanDet");
             builder.EntitySet<V_voucherAccounts>("V_voucherAccounts");
 
+
             builder.EntitySet<LetterOfCredit>("LetterOfCredit");
             builder.EntitySet<LcDocs>("LcDocs");
             builder.EntitySet<V_LetterOfCredit>("V_LetterOfCredit");
@@ -1288,6 +1296,12 @@ namespace CleanAPI
 
             builder.EntitySet<LC_Type>("LC_Type");
             builder.EntitySet<lC_STATUS>("lC_STATUS");
+
+            builder.EntitySet<CMvts>("CMvts");
+            builder.EntitySet<CInvvoucher>("CInvvoucher");
+            builder.EntitySet<V_Cmvts>("V_Cmvts");
+            builder.EntitySet<V_Cinvvoucher>("V_Cinvvoucher");
+
 
             return builder.GetEdmModel();
         }

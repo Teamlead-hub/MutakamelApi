@@ -4,7 +4,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CleanBase.Entities
 {
-    public class Invvoucher : EntityRoot
+    public class CInvvoucher : EntityRoot
     {
         public string? VchrNo { get; set; }
         public string? VchrType { get; set; }
@@ -91,9 +91,11 @@ namespace CleanBase.Entities
         [NotMapped]
         public string? ProductOrderBatch { get; set; }
         public string? VchrSuppInvRet { get; set; }
-        public string? StartingTime { get; set; }
-        public string? EndingTime { get; set; }
-        public string? WorkingHours { get; set; }
-        public List<Mvts> Mvts { get; set; } = new List<Mvts>();
+        public string? SecId { get; set; }
+        [NotMapped]
+        public string? SecName { get; set; }
+
+        public List<CMvts> Mvts { get; set; } = new List<CMvts>();
+
     } 
 }

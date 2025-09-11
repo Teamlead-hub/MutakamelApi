@@ -14,7 +14,6 @@ namespace CleanBase.Entities
 {
     public class Customer : EntityRoot
     {
-
         public string? CustomerName { get; set; }
         public string? mobile { get; set; }
         public string? CustCatgnNo { get; set; }
@@ -30,7 +29,7 @@ namespace CleanBase.Entities
         [NotMapped]
         public string? AreaName { get; set; }
         public int? Taxable { get; set; }
-        public int ? DiscType { get; set; }
+        public int? DiscType { get; set; }
         public decimal? Disc { get; set; }
         public string? Points { get; set; }
         public int? PaymentDays { get; set; }
@@ -41,7 +40,8 @@ namespace CleanBase.Entities
         [NotMapped]
         public int? FinalDiscType { get; set; }
 
-        public List<CustomerContact>? CustomerContact { get; set; } =new List<CustomerContact>();
+        public List<CustomerContact>? CustomerContact { get; set; } = new List<CustomerContact>();
+
 
     }
 
