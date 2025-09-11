@@ -4,73 +4,59 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CleanBase.Entities
 {
-    public class Invvoucher : EntityRoot
+    public class V_Cinvvoucher : EntityRoot
     {
         public string? VchrNo { get; set; }
-        public string? VchrType { get; set; }
+        public string? VchrType { get; set;}
 
         [JsonConverter(typeof(DateOnlyJsonConverter))]
         public DateOnly? VchrDate { get; set; }
         public string? SupplierId { get; set; }
-
-        [NotMapped]
         public string? SupplierName { get; set; }
-        public string? VchrAccountNo { get; set; }
-
-        [NotMapped]
+        public string? VchrAccountNo { get; set; }      
         public string? Accounts_Name { get; set; }
         public string? STOREId { get; set; }
-
-        [NotMapped]
         public string? StoreName { get; set; }
 
         public string? FactoryId { get; set; }
-
-        [NotMapped]
         public string? FactoryName { get; set; }
-
-
         public string? RefNo { get; set; }
         public string? ToStore { get; set; }
-
-        [NotMapped]
         public string? ToStoreName { get; set; }
 
         public string? VchrNotes { get; set; }
         [Column(TypeName = "numeric(18,4)")]
-        public decimal? VchrSubTotal { get; set; }
+        public decimal? VchrSubTotal {  get; set; }
         [Column(TypeName = "numeric(18,4)")]
-        public decimal? VchrDisc { get; set; }
+        public decimal? VchrDisc {  get; set; }
         [Column(TypeName = "numeric(18,4)")]
-        public decimal? VchrDiscPer { get; set; }
+        public decimal? VchrDiscPer {  get; set; }
         public int? DiscByRow { get; set; }
         public int? DiscType { get; set; }
         [Column(TypeName = "numeric(18,4)")]
-        public decimal? VchrTAX { get; set; }
+        public decimal? VchrTAX {  get; set; }
         [Column(TypeName = "numeric(18,4)")]
         public decimal? VchrTotal { get; set; }
         [Column(TypeName = "numeric(18,4)")]
         public decimal? TotalAfterDisc { get; set; }
-        //public decimal TaxRatio { get; set; }
+        [Column(TypeName = "numeric(18,4)")]
+        public decimal TaxRatio { get; set; }
         public int? Status { get; set; }
         public int? Credit { get; set; }
         public string? VchrSuppInv { get; set; }
         public string? UserName { get; set; }
         public string? PaymentConditions { get; set; }
-        [JsonConverter(typeof(DateOnlyJsonConverter))]
-        public DateOnly? DeliveryDate { get; set; }
         public string? ProductOrderId { get; set; }
-        [NotMapped]
         public string? ManagerName { get; set; }
 
         public string? ReceivingInvvoucherId { get; set; }
 
         public string? SalesOrderMainId { get; set; }
         public string? CustomerId { get; set; }
-        [NotMapped]
         public string? CustomerName { get; set; }
         public string? DeliveryMethod { get; set; }
-
+        [JsonConverter(typeof(DateOnlyJsonConverter))]
+        public DateOnly? DeliveryDate { get; set; }
         public string? ShipmentNo { get; set; }
         public string? VehicleNo { get; set; }
         public string? DriverName { get; set; }
@@ -79,21 +65,21 @@ namespace CleanBase.Entities
         public string? Adress { get; set; }
         public decimal? Shipping { get; set; }
         public decimal? Customs { get; set; }
-        public decimal? BankExpenses { get; set; }
+        public decimal? BankExpenses{ get; set; }
         public decimal? TransportationExpenses { get; set; }
         public decimal? OtherImportExpenses { get; set; }
         public decimal? TaxExpenses { get; set; }
-        [NotMapped]
+        public int? CountOrderinPurchaseRet {  get; set; }
         public string? ProductName { get; set; }
         public string? ProductOrderReportId { get; set; }
-        [NotMapped]
         public string? MixReportId { get; set; }
-        [NotMapped]
         public string? ProductOrderBatch { get; set; }
         public string? VchrSuppInvRet { get; set; }
-        public string? StartingTime { get; set; }
-        public string? EndingTime { get; set; }
-        public string? WorkingHours { get; set; }
-        public List<Mvts> Mvts { get; set; } = new List<Mvts>();
-    } 
+        public string? SecId { get; set; }
+        public string? SecName { get; set; }
+
+        public List<V_Cmvts> Mvts { get; set; } = new List<V_Cmvts>();
+
+    }
 }
+

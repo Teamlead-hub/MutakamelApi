@@ -792,6 +792,17 @@ namespace CleanOperation.DataAccess
 
             modelBuilder.Entity<V_voucherAccounts>().ToView("V_voucherAccounts");
 
+
+
+            modelBuilder.Entity<CInvvoucher>().ToTable("CInvvoucher");
+            modelBuilder.Entity<CMvts>().ToTable("CMvts");
+            modelBuilder.Entity<CMvts>().HasOne(r => r.InvVoucher).WithMany(t => t.Mvts).HasForeignKey(t => t.InvVoucherId).OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<V_Cinvvoucher>().ToView("V_Cinvvoucher");
+            modelBuilder.Entity<V_Cmvts>().ToView("V_Cmvts");
+            modelBuilder.Entity<V_Cmvts>().HasOne(r => r.InvVoucher).WithMany(t => t.Mvts).HasForeignKey(t => t.InvVoucherId).OnDelete(DeleteBehavior.Cascade);
+
             EntityPropertyMapper(modelBuilder);
 
         }

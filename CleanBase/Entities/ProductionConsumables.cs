@@ -30,5 +30,13 @@ namespace CleanBase.Entities
         public decimal? PurchasePrice { get; set; }
 
         public string? Notes { get; set; }
+        public decimal? TaxRatio { get; set; }
+        public decimal? LocalCost { get; set; }
+        public decimal? LastLocalCost { get; set; }
+        [NotMapped]
+        public decimal? Qty { get; set; }
+
+
     }
 }
+
