@@ -85,6 +85,7 @@ namespace CleanBase.Entities
         public List<ProductSpecs>? ProductSpecs { get; set; } = new List<ProductSpecs>();
         //public List<Productstest>? Productstest { get; set; } = new List<Productstest>();
         public List<ProductsRaw>? ProductsRaw { get; set; } = new List<ProductsRaw>();
+        public List<ProductsBarcodes>? ProductsBarcodes { get; set; } = new List<ProductsBarcodes>();
 
     }
 }

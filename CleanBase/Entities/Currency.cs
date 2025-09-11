@@ -11,6 +11,7 @@ namespace CleanBase.Entities
         public string? CurrencyName { get; set; }
         public decimal?  ValueInJd{ get; set; }
         public string? CurrencySymbol { get; set;}
+        public int? FlagMain { get; set;}
 
     }
 }

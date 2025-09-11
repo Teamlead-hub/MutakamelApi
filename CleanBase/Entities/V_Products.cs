@@ -57,6 +57,6 @@ namespace CleanBase.Entities
         //public List<V_Productstest>? Productstest { get; set; } = new List<V_Productstest>();
         public List<V_ProductsRaw>? ProductsRaw { get; set; } = new List<V_ProductsRaw>();
         public List<V_ProductBatches>? ProductBatches { get; set; } = new List<V_ProductBatches>();
-
+        public List<V_ProductsBarcodes>? ProductsBarcodes { get; set; } = new List<V_ProductsBarcodes>();
     }
 }
