@@ -70,6 +70,14 @@ namespace CleanBase.Entities
         public decimal? OtherImportExpenses { get; set; }
         public decimal? TaxExpenses { get; set; }
         public int? CountOrderinPurchaseRet {  get; set; }
+        public string? ProductName { get; set; }
+        public string? ProductOrderReportId { get; set; }
+        public string? MixReportId { get; set; }
+        public string? ProductOrderBatch { get; set; }
+        public string? VchrSuppInvRet { get; set; }
+        public string? StartingTime { get; set; }
+        public string? EndingTime { get; set; }
+        public string? WorkingHours { get; set; }
         public List<V_mvts> Mvts { get; set; } = new List<V_mvts>();
 
     }

@@ -502,6 +502,8 @@ namespace CleanAPI.Controllers
 
 
 
+
+
         [HttpPost("upload")]
         public async Task<IActionResult> Upload(IEnumerable<IFormFile> files, [FromQuery] string directory = "upload")
         {
@@ -550,6 +552,8 @@ namespace CleanAPI.Controllers
                 return StatusCode(500, "An error occurred while uploading the files.");
             }
         }
+
+
 
 
 
@@ -603,7 +607,10 @@ namespace CleanAPI.Controllers
                 // Check if the directory exists
                 if (!Directory.Exists(folderPath))
                 {
-                    return NotFound(new { Message = $"The folder '{directory}' does not exist." });
+                    Directory.CreateDirectory(folderPath);
+                    // return Ok();
+                    // return NotFound(new { Message = $"The folder '{directory}' does not exist." });
+
                 }
 
                 // Get all files in the directory and prepare the response
@@ -622,7 +629,6 @@ namespace CleanAPI.Controllers
                 return StatusCode(500, new { Message = "An error occurred while retrieving the files.", Error = ex.Message });
             }
         }
-
 
 
         //-------------------------------
