@@ -177,6 +177,7 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<Units>().ToTable("Units");
             modelBuilder.Entity<V_EmployeeProduction>().ToView("V_EmployeeProduction");
             modelBuilder.Entity<ProductLine>().ToTable("ProductLine");
+            modelBuilder.Entity<V_ProductLine>().ToTable("V_ProductLine");
 
             //Stock  
 

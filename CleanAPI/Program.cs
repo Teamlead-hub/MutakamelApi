@@ -665,6 +665,11 @@ namespace CleanAPI
             builder.Services.AddScoped<ICInvvoucher, CInvvoucherService>();
             builder.Services.AddScoped<IV_Cinvvoucher, V_CinvvoucherService>();
 
+
+
+            builder.Services.AddScoped<IV_ProductLineService, V_ProductLineService>();
+
+
             // 🔹 Load Allowed Origins from appsettings.json
             var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
 
@@ -1302,6 +1307,7 @@ namespace CleanAPI
             builder.EntitySet<V_Cmvts>("V_Cmvts");
             builder.EntitySet<V_Cinvvoucher>("V_Cinvvoucher");
 
+            builder.EntitySet<V_ProductLine>("V_ProductLine");
 
             return builder.GetEdmModel();
         }
