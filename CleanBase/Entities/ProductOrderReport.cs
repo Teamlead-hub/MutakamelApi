@@ -51,6 +51,7 @@ namespace CleanBase.Entities
         public decimal? TotalRawMaterialQty { get; set; }
         [NotMapped]
         public string? BatchNo { get; set; } 
+        public decimal? Wastagerate { get; set; } 
 
         public List<ProductOrderReportRaw> ProductOrderReportRaw { get; set; } = new List<ProductOrderReportRaw>();
         public List<ProductOrderReportPackaging> ProductOrderReportPackaging { get; set; } = new List<ProductOrderReportPackaging>();

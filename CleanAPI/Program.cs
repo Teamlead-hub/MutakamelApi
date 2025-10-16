@@ -291,6 +291,7 @@ namespace CleanAPI
             builder.Services.AddScoped<IV_SubAssetsTestMethodSubService, V_SubAssetsTestMethodSubService>();
 
             builder.Services.AddScoped<IV_SubAssets, V_SubAssetsService>();
+            builder.Services.AddScoped<IV_ProductLineService, V_ProductLineService>();
 
 
 
@@ -664,6 +665,26 @@ namespace CleanAPI
             builder.Services.AddScoped<IV_Cmvts, V_CmvtsService>();
             builder.Services.AddScoped<ICInvvoucher, CInvvoucherService>();
             builder.Services.AddScoped<IV_Cinvvoucher, V_CinvvoucherService>();
+            builder.Services.AddScoped<IPosOperations, PosOperationsService>();
+            builder.Services.AddScoped<IPosOperators, PosOperatorsService>();
+            builder.Services.AddScoped<IPosOperatorsdet, PosOperatorsdetService>();
+
+            builder.Services.AddScoped<ILoginPos, LoginPosService>();
+            builder.Services.AddScoped<ILoginPosDet, LoginPosDetService>();
+            builder.Services.AddScoped<IV_CompanyInfo, V_CompanyInfoService>();
+
+            builder.Services.AddScoped<IPosInvoiceMainService,PosInvoiceMainService>();
+            builder.Services.AddScoped<IPosInvoiceDetailService,PosInvoiceDetailService>();
+            builder.Services.AddScoped<IPosAccountsPaymethodService, PosAccountsPaymethodService>();
+            builder.Services.AddScoped<IPosPaidOutService, PosPaidOutService>();
+            builder.Services.AddScoped<IPosPaidInService, PosPaidInService>();
+
+            builder.Services.AddScoped<IPosVoucherService, PosVoucherService>();
+            builder.Services.AddScoped<IPosVoucherDetailsService, PosVoucherDetailsService>();
+            builder.Services.AddScoped<IPosVoidDetailsService, PosVoidDetailsService>();
+
+            builder.Services.AddSingleton<NotificationUserTracker>();
+
 
             // 🔹 Load Allowed Origins from appsettings.json
             var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
@@ -1301,6 +1322,24 @@ namespace CleanAPI
             builder.EntitySet<CInvvoucher>("CInvvoucher");
             builder.EntitySet<V_Cmvts>("V_Cmvts");
             builder.EntitySet<V_Cinvvoucher>("V_Cinvvoucher");
+            builder.EntitySet<PosOperations>("PosOperations");
+            builder.EntitySet<PosOperators>("PosOperators");
+            builder.EntitySet<PosOperatorsdet>("PosOperatorsdet");
+            builder.EntitySet<LoginPos>("LoginPos");
+            builder.EntitySet<LoginPosDet>("LoginPosDet");
+            builder.EntitySet<V_CompanyInfo>("V_CompanyInfo");
+
+            builder.EntitySet<PosAccountsPaymethod>("PosAccountsPaymethod");
+            builder.EntitySet<PosInvoiceDetail>("PosInvoiceDetail");
+            builder.EntitySet<PosInvoiceMain>("PosInvoiceMain");
+
+            builder.EntitySet<PosPaidOut>("PosPaidOut");
+            builder.EntitySet<PosPaidIn>("PosPaidIn");
+
+            builder.EntitySet<PosVoucher>("PosVoucher");
+            builder.EntitySet<PosVoucherDetails>("PosVoucherDetails");
+            builder.EntitySet<PosVoidDetails>("PosVoidDetails");
+            builder.EntitySet<V_ProductLine>("V_ProductLine");
 
 
             return builder.GetEdmModel();
