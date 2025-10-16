@@ -24,7 +24,7 @@ namespace CleanBase.Entities
         public string? NationalNo { get; set; }
         public string? ID_No { get; set; }
 
-        public decimal? EmpLoanValue { get; set; }
+        //public decimal? EmpLoanValue { get; set; }
 
         public string? ID_Personal { get; set; }
         public string? Mobile { get; set; }

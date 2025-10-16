@@ -628,6 +628,46 @@ namespace CleanAPI.Controllers
 
 
 
+
+        //-------------------------------
+
+        [HttpPost("copyFolder")]
+        public IActionResult CopyFolder([FromQuery] string sourceDir, [FromQuery] string targetDir)
+        {
+            if (string.IsNullOrWhiteSpace(sourceDir) || string.IsNullOrWhiteSpace(targetDir))
+                return BadRequest(new { message = "Source and target directories are required." });
+
+            try
+            {
+                var sourcePath = Path.Combine(Directory.GetCurrentDirectory(), sourceDir);
+                var targetPath = Path.Combine(Directory.GetCurrentDirectory(), targetDir);
+
+                if (!Directory.Exists(sourcePath))
+                    return Ok();
+
+                if (!Directory.Exists(targetPath))
+                    Directory.CreateDirectory(targetPath);
+
+                foreach (var file in Directory.GetFiles(sourcePath))
+                {
+                    var fileName = Path.GetFileName(file);
+                    var destFile = Path.Combine(targetPath, fileName);
+                    System.IO.File.Copy(file, destFile, overwrite: true);
+                }
+
+                return Ok(new { message = "Folder copied successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while copying the folder.", error = ex.Message });
+            }
+        }
+
+
+
+
+
+
         //-------------------------------
 
 
