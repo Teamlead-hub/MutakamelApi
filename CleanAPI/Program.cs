@@ -686,6 +686,11 @@ namespace CleanAPI
             builder.Services.AddSingleton<NotificationUserTracker>();
 
 
+
+
+            builder.Services.AddScoped<IV_ProductLineService, V_ProductLineService>();
+
+
             // 🔹 Load Allowed Origins from appsettings.json
             var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
 
@@ -1341,6 +1346,7 @@ namespace CleanAPI
             builder.EntitySet<PosVoidDetails>("PosVoidDetails");
             builder.EntitySet<V_ProductLine>("V_ProductLine");
 
+            builder.EntitySet<V_ProductLine>("V_ProductLine");
 
             return builder.GetEdmModel();
         }
