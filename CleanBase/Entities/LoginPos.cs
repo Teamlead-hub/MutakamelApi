@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace CleanBase.Entities
 {
-    public class ProductLine:EntityRoot
+    public class LoginPos : EntityRoot
     {
-        public string? ProductLineName { get; set; }
-        public string? FactoryId { get; set; }
-        [NotMapped]
-        public string? FactoryName { get; set; }
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
+        public List<LoginPosDet> det { get; set; } = new List<LoginPosDet>();
+
     }
 }

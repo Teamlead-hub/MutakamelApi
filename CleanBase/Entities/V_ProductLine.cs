@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace CleanBase.Entities
 {
-    public class V_ProductLine : EntityRoot
+    public class V_ProductLine:EntityRoot
     {
         public string? ProductLineName { get; set; }
-        public string? FactoryId { get; set;}
+        public string? FactoryId { get; set; }
         public string? FactoryName { get; set; }
-
     }
 }

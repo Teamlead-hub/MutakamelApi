@@ -530,8 +530,7 @@ namespace CleanAPI.Controllers
                         continue;
 
                     // Generate a unique file name to avoid collisions
-                    //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    var fileName = Path.GetFileName(file.FileName);
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     var filePath = Path.Combine(uploadPath, fileName);
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -552,8 +551,6 @@ namespace CleanAPI.Controllers
                 return StatusCode(500, "An error occurred while uploading the files.");
             }
         }
-
-
 
 
 
@@ -604,13 +601,11 @@ namespace CleanAPI.Controllers
                 // Combine the base directory with the passed directory parameter
                 var folderPath = Path.Combine(Directory.GetCurrentDirectory(), directory);
 
-                // Check if the directory exists
+                // Ensure the directory exists (create if missing)
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
-                    // return Ok();
-                    // return NotFound(new { Message = $"The folder '{directory}' does not exist." });
-
+                    return Ok(new List<object>()); // return empty list
                 }
 
                 // Get all files in the directory and prepare the response
@@ -618,7 +613,7 @@ namespace CleanAPI.Controllers
                     .Select(filePath => new
                     {
                         FileName = Path.GetFileName(filePath),
-                        FileUrl = $"{Request.Scheme}://{Request.Host}/{directory}/{Path.GetFileName(filePath)}"
+                        FileUrl = $"{Request.Scheme}://{Request.Host}/{directory.Replace("\\", "/")}/{Path.GetFileName(filePath)}"
                     })
                     .ToList();
 
@@ -629,6 +624,11 @@ namespace CleanAPI.Controllers
                 return StatusCode(500, new { Message = "An error occurred while retrieving the files.", Error = ex.Message });
             }
         }
+
+
+
+
+        //-------------------------------
 
 
         //-------------------------------

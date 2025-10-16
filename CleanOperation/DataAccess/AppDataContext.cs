@@ -177,7 +177,7 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<Units>().ToTable("Units");
             modelBuilder.Entity<V_EmployeeProduction>().ToView("V_EmployeeProduction");
             modelBuilder.Entity<ProductLine>().ToTable("ProductLine");
-            modelBuilder.Entity<V_ProductLine>().ToTable("V_ProductLine");
+            modelBuilder.Entity<V_ProductLine>().ToView("V_ProductLine");
 
             //Stock  
 
@@ -836,6 +836,15 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<LC_Type>().ToTable("LC_Type");
             modelBuilder.Entity<lC_STATUS>().ToTable("lC_STATUS");
 
+            modelBuilder.Entity<PosOperations>().ToTable("PosOperations");
+            modelBuilder.Entity<PosOperators>().ToTable("PosOperators");
+            modelBuilder.Entity<PosOperatorsdet>().ToTable("PosOperatorsdet");
+            modelBuilder.Entity<V_CompanyInfo>().ToView("V_CompanyInfo");
+
+
+            modelBuilder.Entity<LoginPos>().ToView("LoginPos");
+            modelBuilder.Entity<LoginPosDet>().ToView("LoginPosDet");
+            modelBuilder.Entity<LoginPosDet>().HasOne(d => d.LoginPos).WithMany(t => t.det).HasForeignKey(d => d.PosOperatorsId).OnDelete(DeleteBehavior.Cascade);
 
 
 
@@ -847,6 +856,24 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<V_Cinvvoucher>().ToView("V_Cinvvoucher");
             modelBuilder.Entity<V_Cmvts>().ToView("V_Cmvts");
             modelBuilder.Entity<V_Cmvts>().HasOne(r => r.InvVoucher).WithMany(t => t.Mvts).HasForeignKey(t => t.InvVoucherId).OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<PosInvoiceMain>().ToTable("PosInvoiceMain");
+            modelBuilder.Entity<PosInvoiceDetail>().ToTable("PosInvoiceDetail");
+            modelBuilder.Entity<PosAccountsPaymethod>().ToTable("PosAccountsPaymethod");
+
+            modelBuilder.Entity<PosInvoiceDetail>().HasOne(r => r.PosInvoiceMain).WithMany(t => t.InvoiceDetail).HasForeignKey(t => t.PosInvoiceMainId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<PosAccountsPaymethod>().HasOne(r => r.PosInvoiceMain).WithMany(t => t.AccountsPaymethod).HasForeignKey(t => t.PosInvoiceMainId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<PosPaidIn>().ToTable("PosPaidIn");
+            modelBuilder.Entity<PosPaidOut>().ToTable("PosPaidOut");
+
+            modelBuilder.Entity<PosVoidDetails>().ToTable("PosVoidDetails");
+
+            modelBuilder.Entity<PosVoucher>().ToTable("PosVoucher");
+            modelBuilder.Entity<PosVoucherDetails>().ToTable("PosVoucherDetails");
+           
+            modelBuilder.Entity<PosInvoiceDetail>().HasOne(r => r.PosInvoiceMain).WithMany(t => t.InvoiceDetail).HasForeignKey(t => t.PosInvoiceMainId).OnDelete(DeleteBehavior.Cascade);
 
 
             EntityPropertyMapper(modelBuilder);

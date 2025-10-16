@@ -35,6 +35,9 @@ namespace CleanBase.Entities
         public decimal? RestQty { get; set; }
         public decimal? WastedQty { get; set; }
         public decimal? PackageQuantity { get; set; }
+        public decimal? Weight { get; set; }
+        [NotMapped]
+        public string? PackageWeight { get; set; }
         public decimal? ActualCartonQuantity { get; set; }
         [NotMapped]
         public decimal? ExpectedCartonQuantity { get; set; }

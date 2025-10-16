@@ -27,5 +27,7 @@ namespace CleanBase.Entities
         public decimal? PackageQuantity { get; set; }
         public decimal? ActualCartonQuantity { get; set; }
         public decimal? ExpectedCartonQuantity { get; set; }
+        public string? PackageWeight { get; set; }
+        public decimal? Weight { get; set; }
     }
 }

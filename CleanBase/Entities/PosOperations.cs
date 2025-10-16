@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace CleanBase.Entities
 {
-    public class ProductLine:EntityRoot
+    public class PosOperations : EntityRoot
     {
-        public string? ProductLineName { get; set; }
-        public string? FactoryId { get; set; }
-        [NotMapped]
-        public string? FactoryName { get; set; }
+        public string? OperationName { get; set; }
     }
 }
