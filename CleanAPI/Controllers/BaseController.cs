@@ -503,7 +503,6 @@ namespace CleanAPI.Controllers
 
 
 
-
         [HttpPost("upload")]
         public async Task<IActionResult> Upload(IEnumerable<IFormFile> files, [FromQuery] string directory = "upload")
         {
@@ -624,10 +623,6 @@ namespace CleanAPI.Controllers
                 return StatusCode(500, new { Message = "An error occurred while retrieving the files.", Error = ex.Message });
             }
         }
-
-
-
-
 
         //-------------------------------
 

@@ -260,7 +260,7 @@ namespace CleanAPI
             builder.Services.AddScoped<IV_Assets, V_AssetsService>();
             builder.Services.AddScoped<IAssets, AssetsService>();
             builder.Services.AddScoped<IAssetsCat, AssetsCatService>();
-
+            builder.Services.AddScoped<IV_AssetsCat, V_AssetsCatService>();
             builder.Services.AddScoped<IV_AssetsDestruction, V_AssetsDestructionService>();
             builder.Services.AddScoped<IAssetsDestruction, AssetsDestructionService>();
 
@@ -942,6 +942,7 @@ namespace CleanAPI
             builder.EntitySet<V_Assets>("V_Assets");
             builder.EntitySet<Assets>("Assets");
             builder.EntitySet<AssetsCat>("AssetsCat");
+            builder.EntitySet<V_AssetsCat>("V_AssetsCat");
 
             builder.EntitySet<V_AssetsDestruction>("V_AssetsDestruction");
             builder.EntitySet<AssetsDestruction>("AssetsDestruction");

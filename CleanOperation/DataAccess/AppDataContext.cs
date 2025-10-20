@@ -289,6 +289,8 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<Assets>().Property(e => e.Id).HasDefaultValueSql("CONVERT( , abs(checksum(newid())))");
 
             modelBuilder.Entity<AssetsCat>().ToTable("AssetsCat");
+            modelBuilder.Entity<V_AssetsCat>().ToTable("V_AssetsCat");
+
             modelBuilder.Entity<V_AssetsDestruction>().ToView("V_AssetsDestruction");
             modelBuilder.Entity<AssetsDestruction>().ToTable("AssetsDestruction");
             modelBuilder.Entity<SubAssets>().ToTable("SubAssets");
