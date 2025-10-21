@@ -14,7 +14,9 @@ namespace CleanBase.Entities
         public string? StockId { get; set; }
         public string? UnitId { get; set; }
         public string? UnitName { get; set; }
+        [Column(TypeName = "numeric(18,4)")]
         public decimal? Volume { get; set; }
+        [Column(TypeName = "numeric(18,4)")]
         public decimal? Weight { get; set; }
         public decimal? Packaging { get; set; }
         public decimal? Density { get; set; }

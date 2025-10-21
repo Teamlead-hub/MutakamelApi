@@ -29,6 +29,8 @@ namespace CleanBase.Entities
         public string? Labels { get; set; }
         [NotMapped]
         public string? LabelsName { get; set; }
+        [NotMapped]
+        public string? LabelsColor { get; set; }
         [JsonConverter(typeof(DateOnlyJsonConverter))]
         public DateOnly? CloseDate { get; set; }
         [JsonConverter(typeof(DateOnlyJsonConverter))]
@@ -39,8 +41,11 @@ namespace CleanBase.Entities
         public int? ClosedDealFlag { get; set; }
         public int? ConvertToDealFlag { get; set; }
         public string? WebPagesUsersId { get; set; }
+        [Column(TypeName = "nvarchar(MAX)")]
+        public string? notes { get; set; }
         [NotMapped]
         public string? WebPagesUserName { get; set; }
         public List<LeadDealProducts> LeadDealProducts {  get; set; }=new List<LeadDealProducts>();
+        public List<LeadDealActivity> LeadDealActivity {  get; set; }=new List<LeadDealActivity>();
     }
 }

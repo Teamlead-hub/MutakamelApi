@@ -13,6 +13,7 @@ namespace CleanBase.Entities
         public decimal? PackagingQty {  get; set; }
         public string? ArabicName {  get; set; }
         public string? ProductName {  get; set; }
+        [Column(TypeName = "numeric(18,4)")]
         public decimal? Price {  get; set; }
         public string? ProductId {  get; set; }
         public string? StockId {  get; set; }

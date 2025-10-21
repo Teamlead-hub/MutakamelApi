@@ -611,9 +611,11 @@ namespace CleanAPI
 
             builder.Services.AddScoped<ILeadsAndDealsService, LeadsAndDealsService>();
             builder.Services.AddScoped<ILeadDealProductsService, LeadDealProductsService>();
+            builder.Services.AddScoped<ILeadDealActivityService, LeadDealActivityService>();
 
             builder.Services.AddScoped<IV_LeadsAndDealsService, V_LeadsAndDealsService>();
             builder.Services.AddScoped<IV_LeadDealProductsService, V_LeadDealProductsService>();
+            builder.Services.AddScoped<IV_LeadDealActivityService, V_LeadDealActivityService>();
 
             builder.Services.AddScoped<IV_BarcodeBatches, V_BarcodeBatchesService>();
 
@@ -1263,9 +1265,11 @@ namespace CleanAPI
 
             builder.EntitySet<LeadsAndDeals>("LeadsAndDeals");
             builder.EntitySet<LeadDealProducts>("LeadDealProducts");
+            builder.EntitySet<LeadDealActivity>("LeadDealActivity");
 
             builder.EntitySet<V_LeadsAndDeals>("V_LeadsAndDeals");
             builder.EntitySet<V_LeadDealProducts>("V_LeadDealProducts");
+            builder.EntitySet<V_LeadDealActivity>("V_LeadDealActivity");
 
             builder.EntitySet<ZVanSalesMain>("ZVanSalesMain");
             builder.EntitySet<ZVanSalesDetails>("ZVanSalesDetails");
