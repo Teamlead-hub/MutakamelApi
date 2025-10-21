@@ -398,7 +398,8 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<LeavesDetails>().HasOne(r => r.LeavesMain).WithMany(m => m.Det).HasForeignKey(t => t.LeavesMainId).OnDelete(DeleteBehavior.Cascade); 
 
             modelBuilder.Entity<Emploans>().ToTable("Emploans");
-   
+            modelBuilder.Entity<V_Emploans>().ToTable("V_Emploans");
+
             modelBuilder.Entity<V_IncrementMain>().ToView("V_IncrementMain");
             modelBuilder.Entity<V_IncrementDetails>().ToView("V_IncrementDetails");
             modelBuilder.Entity<V_IncrementDetails>().HasOne(r => r.IncrementMain).WithMany(m => m.Det);

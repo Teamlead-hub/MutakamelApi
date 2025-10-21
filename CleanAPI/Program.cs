@@ -339,6 +339,7 @@ namespace CleanAPI
             builder.Services.AddScoped<ILeavesDetails, LeavesDetailsService>();
 
             builder.Services.AddScoped<IEmploans, EmploansService>();
+            builder.Services.AddScoped<IV_Emploans, V_EmploansService>();
 
             builder.Services.AddScoped<IV_IncrementMain, V_IncrementMainService>();
             builder.Services.AddScoped<IV_IncrementDetails, V_IncrementDetailsService>();
@@ -1023,6 +1024,7 @@ namespace CleanAPI
             builder.EntitySet<LeavesDetails>("LeavesDetails");
 
             builder.EntitySet<Emploans>("Emploans");
+            builder.EntitySet<V_Emploans>("V_Emploans");
 
             builder.EntitySet<V_IncrementMain>("V_IncrementMain");
             builder.EntitySet<V_IncrementDetails>("V_IncrementDetails");

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /https://localhost:7219/upload/Products/F10/SpecF10.pdf</pre>
+</body>
+</html>
