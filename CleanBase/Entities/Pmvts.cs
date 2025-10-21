@@ -82,6 +82,9 @@ namespace CleanBase.Entities
         [NotMapped]
         public string? CustomerName { get; set; }
         public string? salesOrderId { get; set; }
+        public decimal? Weight { get; set; }
+        public decimal? Volume { get; set; }
+
         public string? LeadsAndDealsId { get; set; }
 
     }

@@ -718,9 +718,13 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<LeadsAndDeals>().ToTable("LeadsAndDeals");
             modelBuilder.Entity<LeadDealProducts>().ToTable("LeadDealProducts");
             modelBuilder.Entity<LeadDealProducts>().HasOne(t=>t.LeadsAndDeals).WithMany(t => t.LeadDealProducts).HasForeignKey(t=>t.LeadsAndDealsId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<LeadDealActivity>().ToTable("LeadDealActivity");
+            modelBuilder.Entity<LeadDealActivity>().HasOne(t => t.LeadsAndDeals).WithMany(t => t.LeadDealActivity).HasForeignKey(t => t.LeadsAndDealsId).OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<V_LeadsAndDeals>().ToView("V_LeadsAndDeals");
             modelBuilder.Entity<V_LeadDealProducts>().ToView("V_LeadDealProducts");
+            modelBuilder.Entity<V_LeadDealActivity>().ToView("V_LeadDealActivity");
 
 
             modelBuilder.Entity<Customer>().ToTable("Customer");

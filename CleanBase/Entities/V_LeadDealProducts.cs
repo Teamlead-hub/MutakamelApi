@@ -36,6 +36,10 @@ namespace CleanBase.Entities
         public decimal? DiscValue { get; set; }
         public string? LeadsAndDealsId { get; set; }
 
+        public decimal? Cost { get; set; }
+        public decimal? Weight { get; set; }
+        public decimal? Volume { get; set; }
+
         public V_LeadsAndDeals? LeadsAndDeals { get; set; }
     }
 }

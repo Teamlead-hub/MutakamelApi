@@ -35,6 +35,7 @@ namespace CleanBase.Entities
         public decimal? RestQty { get; set; }
         public decimal? WastedQty { get; set; }
         public decimal? PackageQuantity { get; set; }
+        [Column(TypeName = "numeric(18,4)")]
         public decimal? Weight { get; set; }
         [NotMapped]
         public string? PackageWeight { get; set; }

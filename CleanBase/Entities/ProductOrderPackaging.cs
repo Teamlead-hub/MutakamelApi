@@ -21,7 +21,9 @@ namespace CleanBase.Entities
         public string? UnitId { get; set; }
         [NotMapped]
         public string? UnitName { get; set; }
+        [Column(TypeName = "numeric(18,4)")]
         public decimal? Volume { get; set; }
+        [Column(TypeName = "numeric(18,4)")]
         public decimal? Weight { get; set; }
         [NotMapped]
         public decimal? Packaging { get; set; }
