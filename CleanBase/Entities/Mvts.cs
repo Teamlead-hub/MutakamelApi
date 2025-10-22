@@ -80,7 +80,8 @@ namespace CleanBase.Entities
         [JsonConverter(typeof(DateOnlyJsonConverter))]
         public DateOnly? ExpiryDate { get; set; }
         public int? SampleTestResult { get; set; }
-     
+
+        public string? UnitId { get; set; }
 
     }
 }
