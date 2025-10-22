@@ -659,6 +659,21 @@ namespace CleanAPI.Controllers
         }
 
 
+        [HttpPost("createFolder")]
+        public IActionResult CreateFolder([FromQuery] string directory = "upload")
+        {
+            // Combine the base directory with the passed directory parameter
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), directory);
+
+            // Ensure the directory exists (create if missing)
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+                return Ok(new List<object>()); // return empty list
+            }
+
+            return Ok(new { message = "Folder created successfully." });
+        }
 
 
 
