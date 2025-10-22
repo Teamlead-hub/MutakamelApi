@@ -1,0 +1,542 @@
+USE [IraqAccounts]
+GO
+/****** Object:  StoredProcedure [dbo].[Balance_Sheet]    Script Date: 10/14/2025 4:53:23 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[Balance_Sheet] (@OLDdBNAME AS VARCHAR(50) = NULL)
+AS
+-- استعلام لتحصيل الحسابات مع العمليات الحسابية
+WITH BalanceData AS (
+    SELECT 
+        B.Groupid, 
+        B.Group_Name, 
+        B.AccountNo AS AN, 
+        B.Account_name AS A, 
+        CASE 
+            WHEN B.header <> 1 THEN 
+                (SELECT SUM(ISNULL(TRY_CAST(Current_Balance AS FLOAT), 0))  -- استخدام ISNULL لتجنب القيم NULL
+                 FROM V_Accounts 
+                 WHERE LEFT(id, LEN(B.AccountNo)) = B.AccountNo 
+                 AND LEFT(id, LEN(B.exclude)) <> B.exclude 
+                 AND TRY_CAST(Current_Balance AS FLOAT) IS NOT NULL 
+                 AND ISNUMERIC(Current_Balance) = 1)  
+            ELSE 0 
+        END AS B, -- حساب الـ Balance
+        0 AS P, -- لأننا حددنا الـ Balance_prev ليكون 0 لجميع الصفوف
+        B.header AS H, 
+        B.total AS T 
+    FROM BalanceSheet$ B
+    WHERE B.Groupid IS NOT NULL -- فحص إذا كانت Groupid ليست NULL
+)
+-- تحديث عمود Balance و Prev_Balance في الجدول بناءً على الحسابات المحسوبة
+UPDATE B
+SET 
+    B.Balance = BD.B,  -- تحديث عمود Balance بناءً على الحسابات المحسوبة
+    B.Prev_Balance = '0'  -- تحديث عمود Prev_Balance بالقيمة المناسبة (هنا نستخدم '0' كقيمة افتراضية)
+FROM BalanceSheet$ B
+INNER JOIN BalanceData BD
+    ON B.Groupid = BD.Groupid 
+    AND B.AccountNo = BD.AN;
+
+  -- تحديث الحسابات بناءً على القيم المجمعة لكل مجموعة
+    -- تحديث "صافي الممتلكات والآلات والمعدات"
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (111, 221)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (111, 221)
+    )
+    WHERE Account_name = 'صافي الممتلكات والآلات والمعدات';
+
+    -- تحديث "صافي العقارات الاستثمارية"
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (112, 222)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (112, 222)
+    )
+    WHERE Account_name = 'صافي العقارات الاستثمارية';
+
+    -- تحديث "صافي الأصول غير المتداولة المستأجرة (ايجار تمويلي)"
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (113, 223)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (113, 223)
+    )
+    WHERE Account_name = 'صافي الأصول غير المتداولة المستأجرة(يجار تمويلي)';
+
+    -- تحديث "صافي الاستثمارات في أدوات حقوق الملكية"
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (1152, 256)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (1152, 256)
+    )
+    WHERE Account_name = 'صافي الاستثمارات في أدوات حقوق الملكية';
+
+    -- تحديث "مجموع القروض وصافي الاستثمارات في أدوات حقوق الملكية"
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (1151, 1152, 256)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (1151, 1152, 256)
+    )
+    WHERE Account_name = 'مجموع القروض وصافي الاستثمارات في أدوات حقوق الملكية';
+
+    -- تحديث "صافي الممتلكات والآلات والمعدات الخاضعة لسيطرة مشتركة"
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (117, 227)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (117, 227)
+    )
+    WHERE Account_name = 'صافي الممتلكات والآلات والمعدات الخاضعة لسيطرة مشتركة';
+
+    -- تحديث "صافي الأصول غير المتداولة"
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (117, 227, 116, 256, 1152, 1151, 114, 223, 113, 222, 112, 221, 111)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (117, 227, 116, 256, 1152, 1151, 114, 223, 113, 222, 112, 221, 111)
+    )
+    WHERE Account_name = 'صافي الأصول غير المتداولة';
+
+    -- تحديث "مجموع الأصول غير المتداولة"
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (117, 227, 116, 256, 1152, 1151, 114, 223, 113, 222, 112, 221, 111)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (117, 227, 116, 256, 1152, 1151, 114, 223, 113, 222, 112, 221, 111)
+    )
+    WHERE Account_name = 'مجموع الأصول غير المتداولة';
+
+      UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (121,122,123,124,125,126,127)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (121,122,123,124,125,126,127)
+    )
+    WHERE Account_name = 'مجموع الانفاق الرأسمالي';
+
+     UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (131,254)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (131,254)
+    )
+    WHERE Account_name = 'المخزون بالقيمة القابلة للتحقق';
+
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (131,254,1318)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (131,254,1318)
+    )
+    WHERE Account_name = 'اجمالي المخزون';
+
+
+        UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (132,224)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (132,224)
+    )
+    WHERE Account_name = 'صافي الذمم المدينة';
+
+       UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (134,257)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (134,257)
+    )
+    WHERE Account_name = 'صافي النقود';
+
+
+        UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (131,254,1318,132,224,133,134,157,135)
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (131,254,1318,132,224,133,134,157,135)
+    )
+    WHERE Account_name = 'مجموع الأصول المتداولة';
+
+        UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (145,225)  
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (145,225) 
+    )
+    WHERE Account_name = 'الاستثمارات بالقيمة العادلة';
+
+
+
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (141,142,145,225,146) 
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (141,142,145,225,146) 
+    )
+    WHERE Account_name = 'مجموع الأصول الاخرى';
+
+
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (151,152,153,154,155,156,157,158) 
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (151,152,153,154,155,156,157,158)  
+    )
+    WHERE Account_name = 'مجموع الأصول غير الملموسة';
+
+
+    
+    UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (151,152,153,154,155,156,157,158,226) 
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (151,152,153,154,155,156,157,158,226)  
+    )
+    WHERE Account_name = 'صافي الأصول غير الملموسة';
+
+      UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (117, 227, 116, 256, 1152, 1151, 114, 223, 113, 222, 112, 221, 111,121,122,123,124,125,126,127,131,254,1318,132,224,133,134,157,135,141,142,145,225,146,151,152,153,154,155,156,157,158,226) 
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (117, 227, 116, 256, 1152, 1151, 114, 223, 113, 222, 112, 221, 111,121,122,123,124,125,126,127,131,254,1318,132,224,133,134,157,135,141,142,145,225,146,151,152,153,154,155,156,157,158,226)  
+    )
+    WHERE Account_name = 'مجموع الاصول';
+
+
+      UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (213,215) 
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (213,215)  
+    )
+    WHERE Account_name = 'مجموع الالتزامات غير المتداولة';
+
+          UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (232,234,235) 
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (232,234,235)  
+    )
+    WHERE Account_name = 'مجموع الالتزامات المتداولة';
+
+       UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (241,242,244,245,246,247) 
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (241,242,244,245,246,247)  
+    )
+    WHERE Account_name = 'مجموع الالتزامات الأخرى';
+
+     UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (251,252,253,255,258) 
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (251,252,253,255,258)     )
+    WHERE Account_name = 'مجموع التخصيصات';
+
+
+        UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (261,262,263,264,265,269,2631,2632) 
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (261,262,263,264,265,269,2631,2632)  
+    )
+    WHERE Account_name = 'مجموع حقوق الملكية';
+
+         UPDATE BalanceSheet$
+    SET Balance = (
+        SELECT SUM(ISNULL(Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE  AccountNo IN (213,215,232,234,235,241,242,244,245,246,247,251,252,253,255,258,261,262,263,264,265,269,2631,2632)   
+    ), 
+    Prev_Balance = (
+        SELECT SUM(ISNULL(Prev_Balance, 0)) 
+        FROM BalanceSheet$ 
+        WHERE AccountNo IN (213,215,232,234,235,241,242,244,245,246,247,251,252,253,255,258,261,262,263,264,265,269,2631,2632)  
+    )
+    WHERE Account_name = 'مجموع الالتزامات وحقوق الملكية';
+
+    -- استعلام لعرض النتائج المحدثة
+    SELECT * 
+    FROM BalanceSheet$ 
+ORDER BY [Groupid], [Id];
+
+
+
+
+
+
+USE [IraqAccounts]
+GO
+
+/****** Object:  Table [dbo].[BalanceSheet$]    Script Date: 10/14/2025 5:10:15 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[BalanceSheet$](
+	[Id] [int] NULL,
+	[Groupid] [int] NULL,
+	[Group_Name] [nvarchar](255) NULL,
+	[AccountNo] [nvarchar](50) NULL,
+	[Account_name] [nvarchar](255) NULL,
+	[exclude] [nvarchar](50) NULL,
+	[header] [nvarchar](50) NULL,
+	[total] [nvarchar](50) NULL,
+	[Balance] [numeric](18, 2) NULL,
+	[Prev_Balance] [numeric](18, 2) NULL
+) ON [PRIMARY]
+GO
+
+
+-- إدراج البيانات
+INSERT INTO [dbo].[BalanceSheet$]
+([Id],[Groupid],[Group_Name],[AccountNo],[Account_name],[exclude],[header],[total],[Balance],[Prev_Balance])
+VALUES
+(60, 11, N'الأصول غير المتداولة', N'11', N'الأصول غير المتداولة', NULL, N'1', NULL, 0.00, 0.00),
+(61, 11, N'الأصول غير المتداولة', N'111', N'الممتلكات والالات والمعدات', N'0', N'0', N'0', -200.00, 0.00),
+(62, 11, N'الأصول غير المتداولة', N'221', N'متراكم اندثار الممتلكات والالات والمعدات', N'0', N'0', N'0', 0.00, 0.00),
+(63, 11, N'الأصول غير المتداولة', NULL, N'صافي الممتلكات والالات والمعدات', N'0', N'0', N'1', -200.00, 0.00),
+(64, 11, N'الأصول غير المتداولة', N'112', N'العقارات الاستثمارية', N'0', N'0', N'0', -600.00, 0.00),
+(65, 11, N'الأصول غير المتداولة', N'222', N'متراكم اندثار العقارات الاستثمارية', N'0', N'0', N'0', 0.00, 0.00),
+(66, 11, N'الأصول غير المتداولة', NULL, N'صافي العقارات الاستثمارية', N'0', N'0', N'1', -600.00, 0.00),
+(67, 11, N'الأصول غير المتداولة', N'113', N'الاصول غير المتداولة المستأجرة', N'0', N'0', N'0', -400.00, 0.00),
+(68, 11, N'الأصول غير المتداولة', N'223', N'متراكم اندثار الأصول غير المتداولة المستأجرة (ايجار تمويلي)', N'0', N'0', N'0', 0.00, 0.00),
+(69, 11, N'الأصول غير المتداولة', NULL, N'صافي الأصول غير المتداولة المستأجرة(ايجار تمويلي)', N'0', N'0', N'1', -400.00, 0.00),
+(70, 11, N'الأصول غير المتداولة', N'114', N'أصول حية لاغراض العرض وإلانتاج والحراسة', N'0', N'0', N'0', 600.00, 0.00),
+(71, 11, N'الأصول غير المتداولة', N'115', N'القروض والاستثمارات طويلة الاجل', N'0', N'1', N'0', 0.00, 0.00),
+(72, 11, N'الأصول غير المتداولة', N'1151', N'القروض الممنوحة طويلة الاجل', N'0', N'0', N'0', 0.00, 0.00),
+(73, 11, N'الأصول غير المتداولة', N'1152', N'استثمارات مالية', N'0', N'0', N'0', 0.00, 0.00),
+(74, 11, N'الأصول غير المتداولة', N'256', N'مخصص هبوط الاستثمارات المالية', N'0', N'0', N'0', 0.00, 0.00),
+(75, 11, N'الأصول غير المتداولة', NULL, N'صافي الاستثمارات في أدوات حقوق الملكية', N'0', N'0', N'1', 0.00, 0.00),
+(76, 11, N'الأصول غير المتداولة', NULL, N'مجموع القروض وصافي الاستثمارات في أدوات حقوق الملكية', N'0', N'1', N'1', 0.00, 0.00),
+(78, 11, N'الأصول غير المتداولة', N'116', N'عقود التعدين', N'0', N'0', N'0', 0.00, 0.00),
+(79, 11, N'الأصول غير المتداولة', N'117', N'الممتلكات والالات والمعدات الخاضعة لسيطرة مشتركة.', N'0', N'0', N'0', 0.00, 0.00),
+(80, 11, N'الأصول غير المتداولة', N'227', N'متراكم اندثار الممتلكات والالات والمعدات الخاضعة لسيطرة مشتركة', N'0', N'0', N'0', 600.00, 0.00),
+(81, 11, N'الأصول غير المتداولة', NULL, N'صافي الممتلكات والالات والمعدات الخاضعة لسيطرة مشتركة', N'0', N'0', N'1', 600.00, 0.00),
+(82, 11, N'الأصول غير المتداولة', NULL, N'صافي الأصول غير المتداولة', N'0', N'1', N'1', 0.00, 0.00),
+
+(83, 12, N'الانفاق الرأسمالي', N'12', N'الانفاق الرأسمالي', NULL, N'1', NULL, 0.00, 0.00),
+(84, 12, N'الانفاق الرأسمالي', N'121', N'الانفاق الرأسمالي على الممتلكات والالات والمعدات', N'0', N'0', N'0', 600.00, 0.00),
+(85, 12, N'الانفاق الرأسمالي', N'122', N'الانفاق الرأسمالي على العقارات الاستثمارية', N'0', N'0', N'0', 0.00, 0.00),
+(86, 12, N'الانفاق الرأسمالي', N'123', N'الانفاق الرأسمالي على الاصول غير المتداولة المستأجرة (ايجار تمويلي)', N'0', N'0', N'0', 0.00, 0.00),
+(87, 12, N'الانفاق الرأسمالي', N'124', N'الانفاق الرأسمالي على الاصول الحية لاغراض العرض وإلانتاج والحراسة', N'0', N'0', N'0', 500.00, 0.00),
+(88, 12, N'الانفاق الرأسمالي', N'125', N'إنفاق استثماري', N'0', N'0', N'0', 0.00, 0.00),
+(89, 12, N'الانفاق الرأسمالي', N'126', N'عقود التعدين', N'0', N'0', N'0', 0.00, 0.00),
+(90, 12, N'الانفاق الرأسمالي', N'127', N'الممتلكات والالات والمعدات خاضعة لسيطرة مشتركة', N'0', N'0', N'0', 600.00, 0.00),
+(91, 12, N'الانفاق الرأسمالي', NULL, N'مجموع الانفاق الرأسمالي', N'0', N'1', N'1', 1700.00, 0.00),
+
+(100, 13, N'الأصول المتداولة', NULL, N'صافي الذمم المدينة', N'0', N'0', N'1', 491.00, 0.00),
+(101, 13, N'الاصول المتداولة', N'133', N'أصول غير متداولة معروضة للبيع اومحتفظ بها للتوزيع على المالك او الاهداء', N'0', N'0', N'0', 1200.00, 0.00),
+(102, 13, N'الاصول المتداولة', N'134', N'النقود', N'0', N'0', N'0', 26900.00, 0.00),
+(103, 13, N'الاصول المتداولة', N'257', N'مخصص خسائر فروقات اسعار الصرف الاجنبي', N'0', N'0', N'0', 0.00, 0.00),
+(104, 13, N'الأصول المتداولة', NULL, N'صافي النقود', N'0', N'0', N'1', 26900.00, 0.00),
+(105, 13, N'الاصول المتداولة', N'135', N'القروض والاستثمارات قصيرة الاجل', N'0', N'0', N'0', 2400.00, 0.00),
+(106, 13, N'الأصول المتداولة', NULL, N'مجموع الأصول المتداولة', N'0', N'1', N'1', 42623.00, 0.00),
+(92, 13, N'الاصول المتداولة', N'13', N'الاصول المتداولة', NULL, N'1', NULL, 0.00, 0.00),
+(93, 13, N'الاصول المتداولة', N'131', N'المخزون', N'1318', N'0', N'0', 11633.00, 0.00),
+(94, 13, N'الاصول المتداولة', N'254', N'مخصص هبوط أسعار المخزون', N'0', N'0', N'0', 0.00, 0.00),
+(95, 13, N'الأصول المتداولة', NULL, N'المخزون بالقيمة القابلة للتحقق', N'0', N'0', N'1', 11633.00, 0.00),
+(96, 13, N'الاصول المتداولة', N'1318', N'إعتمادات مستندية لشراء مواد ويحلل إلى الحسابات الآتية:', N'0', N'0', N'0', 0.00, 0.00),
+(97, 13, N'الأصول المتداولة', NULL, N'اجمالي المخزون', N'0', N'0', N'1', 11633.00, 0.00),
+(98, 13, N'الاصول المتداولة', N'132', N'الذمم المدينة', N'0', N'0', N'0', 491.00, 0.00),
+(99, 13, N'الاصول المتداولة', N'224', N'متراكم الديون المشكوك في تحصيلها', N'0', N'0', N'0', 0.00, 0.00),
+
+(1, 14, N'ألاصول الاخرى', N'145', N'استثمارات بالقيمة العادلة من خلال الدخل الشامل الآخر', N'0', N'0', N'0', 0.00, 0.00),
+(107, 14, N'ألاصول الاخرى', N'14', N'ألاصول الاخرى', NULL, N'1', NULL, 0.00, 0.00),
+(108, 14, N'ألاصول الاخرى', N'141', N'أصول ضريبية مؤجلة', N'0', N'0', N'0', 0.00, 0.00),
+(109, 14, N'ألاصول الاخرى', N'142', N'تعويضات وغرامات مؤجلة', N'0', N'0', N'0', 0.00, 0.00),
+(2, 14, N'ألاصول الاخرى', N'225', N'تعديلات القيمة العادلة', N'0', N'0', N'0', 0.00, 0.00),
+(3, 14, N'ألاصول الاخرى', NULL, N'الاستثمارات بالقيمة العادلة', N'0', N'0', N'1', 0.00, 0.00),
+(4, 14, N'ألاصول الاخرى', N'146', N'حقوق بيع البضائع وإعادة الشراء', N'0', N'0', N'0', 600.00, 0.00),
+(5, 14, N'ألاصول الاخرى', NULL, N'مجموع الأصول الاخرى', N'0', N'1', N'1', 600.00, 0.00),
+
+(6, 15, N'الاصول غير الملموسة', N'15', N'الاصول غير الملموسة', NULL, N'1', NULL, 0.00, 0.00),
+(7, 15, N'الاصول غير الملموسة', N'151', N'شهرة المحل', N'0', N'0', N'0', 0.00, 0.00),
+(8, 15, N'الاصول غير الملموسة', N'152', N'حقوق اختراع', N'0', N'0', N'0', -600.00, 0.00),
+(9, 15, N'الاصول غير الملموسة', N'153', N'حقوق الامتياز والتراخيص', N'0', N'0', N'0', 0.00, 0.00),
+(10, 15, N'الاصول غير الملموسة', N'154', N'العلامة التجارية', N'0', N'0', N'0', 6111.00, 0.00),
+(11, 15, N'الاصول غير الملموسة', N'155', N'الأبحاث والتجارب', N'0', N'0', N'0', 1840.00, 0.00),
+(12, 15, N'الاصول غير الملموسة', N'156', N'حقوق النشر والطبع والتأليف', N'0', N'0', N'0', 479.00, 0.00),
+(13, 15, N'الاصول غير الملموسة', N'157', N'حقوق عقود التأجير طويلة الأجل', N'0', N'0', N'0', -1.00, 0.00),
+(14, 15, N'الاصول غير الملموسة', N'158', N'أصول غير ملموسة أخرى', N'0', N'0', N'0', 0.00, 0.00),
+(15, 15, N'الاصول غير الملموسة', NULL, N'مجموع الأصول غير الملموسة', N'0', N'0', N'1', 7829.00, 0.00),
+(16, 15, N'الاصول غير الملموسة', N'226', N'متراكم إطفاء الاصول غير الملموسة', N'0', N'0', N'0', 0.00, 0.00),
+(17, 15, N'الاصول غير الملموسة', NULL, N'صافي الأصول غير الملموسة', N'0', N'1', N'1', 7829.00, 0.00),
+(18, 15, N'الاصول غير الملموسة', NULL, N'مجموع الاصول', N'0', N'1', N'1', 52753.00, 0.00),
+
+(19, 18, N'الارصدة المدينة لحسابات التأجيل التنظيمية', N'18', N'الارصدة المدينة لحسابات التأجيل التنظيمية', N'0', N'0', N'0', 0.00, 0.00),
+(20, 19, N'الحسابات المتقابلة المدينة', N'19', N'الحسابات المتقابلة المدينة', N'0', N'0', N'0', 1710.00, 0.00),
+
+(21, 21, N'الالتزامات غير المتداولة', N'21', N'الالتزامات غير المتداولة', N'0', N'1', N'0', 0.00, 0.00),
+(22, 21, N'الالتزامات غير المتداولة', N'213', N'التزامات تمويل عقود الايجار', N'0', N'0', N'0', 0.00, 0.00),
+(23, 21, N'الالتزامات غير المتداولة', N'215', N'التزامات طويلة الاجل', N'0', N'0', N'0', -600.00, 0.00),
+(24, 21, N'الالتزامات غير المتداولة', NULL, N'مجموع الالتزامات غير المتداولة', N'0', N'0', N'1', -600.00, 0.00),
+
+(25, 23, N'الالتزامات المتداولة', N'232', N'الالتزامات المتداولة', N'0', N'1', N'0', 0.00, 0.00),
+(26, 23, N'الالتزامات المتداولة', N'232', N'الذمم الدائنة', N'0', N'0', N'0', -33200.00, 0.00),
+(27, 23, N'الالتزامات المتداولة', N'234', N'المصارف الدائنة )جاري مكشوف(', N'0', N'0', N'0', -600.00, 0.00),
+(28, 23, N'الالتزامات المتداولة', N'235', N'الالتزامات قصيرة الاجل', N'0', N'0', N'0', 0.00, 0.00),
+(29, 23, N'الالتزامات المتداولة', NULL, N'مجموع الالتزامات المتداولة', N'0', N'0', N'1', -33800.00, 0.00),
+
+(30, 24, N'الالتزامات الأخرى', N'24', N'الالتزامات الأخرى', N'0', N'1', N'0', 0.00, 0.00),
+(31, 24, N'الالتزامات الأخرى', N'241', N'التزامات ضريبية مؤجلة', N'0', N'0', N'0', 0.00, 0.00),
+(32, 24, N'الالتزامات الأخرى', N'242', N'التزامات ومطالبات وغرامات مؤجلة', N'0', N'0', N'0', 0.00, 0.00),
+(33, 24, N'الالتزامات الأخرى', N'244', N'إيرادات مؤجلة', N'0', N'0', N'0', 0.00, 0.00),
+(34, 24, N'الالتزامات الأخرى', N'245', N'التزامات عقود الايجار', N'0', N'0', N'0', 0.00, 0.00),
+(35, 24, N'الالتزامات الأخرى', N'246', N'التزامات بيع البضائع وعقود الصرف المؤجلة', N'0', N'0', N'0', 0.00, 0.00),
+(36, 24, N'الالتزامات الأخرى', N'247', N'التزام حق استخدام الاصول غير الملموسة', N'0', N'0', N'0', 0.00, 0.00),
+(37, 24, N'الالتزامات الأخرى', NULL, N'مجموع الالتزامات الأخرى', N'0', N'0', N'1', 0.00, 0.00),
+
+(38, 25, N'التخصيصات', N'25', N'التخصيصات', N'0', N'1', N'0', 0.00, 0.00),
+(39, 25, N'التخصيصات', N'251', N'مخصص مصروفات الشراء', N'0', N'0', N'0', 0.00, 0.00),
+(40, 25, N'التخصيصات', N'252', N'مخصص الخسائر متوقعة لمشاريع قيد الإنجاز', N'0', N'0', N'0', 0.00, 0.00),
+(41, 25, N'التخصيصات', N'253', N'مخصص مصاريف الصيانة المحتملة وخدمات ما بعد البيع', N'0', N'0', N'0', 600.00, 0.00),
+(43, 25, N'التخصيصات', N'255', N'مخصص الالتزامات والمطالبات والغرامات', N'0', N'0', N'0', 0.00, 0.00),
+(47, 25, N'التخصيصات', N'258', N'مخصصات متنوعة', N'0', N'0', N'0', -600.00, 0.00),
+(48, 25, N'التخصيصات', NULL, N'مجموع التخصيصات', N'0', N'0', N'1', 0.00, 0.00),
+
+(49, 26, N'حقوق الملكية', N'26', N'حقوق الملكية', N'0', N'1', N'0', 0.00, 0.00),
+(50, 26, N'حقوق الملكية', N'261', N'رأس المال', N'0', N'0', N'0', -1200.00, 0.00),
+(51, 26, N'حقوق الملكية', N'262', N'رأس المال الإضافي )الاحتياطات(', N'0', N'0', N'0', 600.00, 0.00),
+(52, 26, N'حقوق الملكية', N'263', N'الأرباح المحتجزة', N'0', N'0', N'0', 0.00, 0.00),
+(53, 26, N'حقوق الملكية', N'2631', N'الفائض المتراكم', N'0', N'0', N'0', 0.00, 0.00),
+(54, 26, N'حقوق الملكية', N'2632', N'العجز المتراكم', N'0', N'0', N'0', 0.00, 0.00),
+(55, 26, N'حقوق الملكية', N'264', N'الدخل الشامل الآخر', N'0', N'0', N'0', 0.00, 0.00),
+(56, 26, N'حقوق الملكية', N'265', N'التغير بالسياسات المحاسبية والتقديرات وتصحيح الأخطاء', N'0', N'0', N'0', 600.00, 0.00),
+(57, 26, N'حقوق الملكية', N'269', N'حساب النشاط الجاري', N'0', N'0', N'0', 0.00, 0.00),
+(58, 26, N'حقوق الملكية', NULL, N'مجموع حقوق الملكية', N'0', N'0', N'1', 0.00, 0.00),
+(59, 26, N'حقوق الملكية', NULL, N'مجموع الالتزامات وحقوق الملكية', N'0', N'1', N'1', -34400.00, 0.00),
+
+(110, 28, N'الحسابات التنظيمية المؤجلة', N'28', N'الحسابات التنظيمية المؤجلة', N'0', N'0', N'0', -1500.00, 0.00),
+(111, 29, N'الحسابات المتقابلة الدائنة', N'29', N'الحسابات المتقابلة الدائنة', N'0', N'0', N'0', 0.00, 0.00);
+GO
