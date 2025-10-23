@@ -801,8 +801,16 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<CostCenterElements>().ToTable("CostCenterElements");
             modelBuilder.Entity<CostCenterTypes>().ToTable("CostCenterTypes");
             modelBuilder.Entity<CostCenterDistribution>().ToTable("CostCenterDistribution");
+            modelBuilder.Entity<V_CostCenterDistribution>().ToView("V_CostCenterDistribution");
+
+
             modelBuilder.Entity<CostCenterDistributionDet>().ToTable("CostCenterDistributionDet");
             modelBuilder.Entity<CostCenterDistributionDet>().HasOne(r => r.CostCenterDistribution).WithMany(i => i.CostCenterDistributionDet).HasForeignKey(t => t.CostCenterDistributionId).OnDelete(DeleteBehavior.Cascade);
+
+
+
+            modelBuilder.Entity<V_CostCenterDistributionDet>().ToView("V_CostCenterDistributionDet");
+
 
             modelBuilder.Entity<V_voucherAccounts>().ToView("V_voucherAccounts");
 
