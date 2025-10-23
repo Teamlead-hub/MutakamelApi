@@ -36,6 +36,10 @@ namespace CleanBase.Entities
         public decimal? ColorQty { get; set; }
         public string? Barcode { get; set; }
         public string? CartonBarcode { get; set; }
+        [Column(TypeName = "numeric(18,4)")]
+        public decimal? TotalQuantity { get; set; }
+
+        public string? SubBatch { get; set; }
         public V_ProductOrder? ProductOrder { get; set; }
 
         public List<V_ProductOrderPackingMaterial> ProductOrderPackingMaterial { get; set; } = new List<V_ProductOrderPackingMaterial>();

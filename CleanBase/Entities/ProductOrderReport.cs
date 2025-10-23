@@ -49,9 +49,22 @@ namespace CleanBase.Entities
         public int? value_check { get; set; }  //to check if the Production Report has been Recieved 
         [NotMapped]
         public decimal? TotalRawMaterialQty { get; set; }
-        [NotMapped]
         public string? BatchNo { get; set; } 
-        public decimal? Wastagerate { get; set; } 
+        public decimal? Wastagerate { get; set; }
+        public string? StartingTime { get; set; }
+        public string? EndingTime { get; set; }
+        public string? WorkingHours { get; set; }
+
+        [NotMapped]
+        public string? FactoryId { get; set; }
+        [NotMapped]
+        public string? FactoryName { get; set; }
+        [NotMapped]
+        public string? ProductLine { get; set; }
+        [NotMapped]
+        public string? ProductLineName { get; set; }
+        [NotMapped]
+        public string? ProductManager { get; set; }
 
         public List<ProductOrderReportRaw> ProductOrderReportRaw { get; set; } = new List<ProductOrderReportRaw>();
         public List<ProductOrderReportPackaging> ProductOrderReportPackaging { get; set; } = new List<ProductOrderReportPackaging>();

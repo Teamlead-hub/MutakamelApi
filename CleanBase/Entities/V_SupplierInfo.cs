@@ -31,6 +31,10 @@ namespace CleanBase.Entities
         public string? TaxNo { get; set; }
         public string? Accounts_No { get; set; }
 
+        public List<V_SupContactInfo> SupContactInfo { get; set; } = new List<V_SupContactInfo>();
+        public List<V_SupContractInfo> SupContractInfo { get; set; } = new List<V_SupContractInfo>();
+        public List<V_SupEvaluationInfo> SupEvaluationInfo { get; set; } = new List<V_SupEvaluationInfo>();
+
     }
 
 }

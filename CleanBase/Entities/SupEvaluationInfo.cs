@@ -16,11 +16,28 @@ namespace CleanBase.Entities
     {
 
         public string? EvaluationName { get; set; }
-       
+
         public string? SupplierInfoId { get; set; }
-      
+
+        public string? InvVoucherId { get; set; }
+
+
+        [NotMapped]
+        public string? VchrType { get; set; }
+
+        [NotMapped]
+        public string? VchrTypeAr { get; set; }
+
+        [NotMapped]
+        public string? VchrTypeEn { get; set; }
+
         public int? EvaluationRate { get; set; }
-       public SupplierInfo? SupplierInfo { get; set; } 
+
+
+        [NotMapped]
+        public DateOnly? VchrDate { get; set; }
+
+        public SupplierInfo? SupplierInfo { get; set; } 
 
     }
 

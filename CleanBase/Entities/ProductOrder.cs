@@ -63,6 +63,7 @@ namespace CleanBase.Entities
         public int? HasColor { get; set; }
         [NotMapped]
         public decimal? TotalRawMaterialQty { get; set; }
+        public string? BatchNo { get; set; }
 
 
         public List<ProductOrderPackaging> ProductOrderPackaging { get; set; } = new List<ProductOrderPackaging>();

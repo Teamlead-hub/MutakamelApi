@@ -94,6 +94,8 @@ namespace CleanBase.Entities
         public string? StartingTime { get; set; }
         public string? EndingTime { get; set; }
         public string? WorkingHours { get; set; }
+        [NotMapped]
+        public string? BatchNo { get; set; }
         public List<Mvts> Mvts { get; set; } = new List<Mvts>();
     } 
 }
