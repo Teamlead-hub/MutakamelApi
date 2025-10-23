@@ -132,6 +132,9 @@ namespace CleanAPI
             builder.Services.AddScoped<ICostCenterElements, CostCenterElementsService>();
             builder.Services.AddScoped<ICostCenterTypes, CostCenterTypesService>();
             builder.Services.AddScoped<ICostCenterDistribution, CostCenterDistributionService>();
+            builder.Services.AddScoped<IV_CostCenterDistribution, V_CostCenterDistributionService>();
+            builder.Services.AddScoped<IV_CostCenterDistributionDet, V_CostCenterDistributionDetService>();
+
             builder.Services.AddScoped<ICostCenterDistributionDet, CostCenterDistributionDetService>();
             builder.Services.AddScoped<Iv_AcGroups, v_AcGroupsService>();
             builder.Services.AddScoped<IAcGroups, AcGroupsService>();
@@ -821,6 +824,9 @@ namespace CleanAPI
             builder.EntitySet<CostCenterElements>("CostCenterElements");
             builder.EntitySet<CostCenterTypes>("CostCenterTypes");
             builder.EntitySet<CostCenterDistribution>("CostCenterDistribution");
+            builder.EntitySet<V_CostCenterDistribution>("V_CostCenterDistribution");
+            builder.EntitySet<V_CostCenterDistributionDet>("V_CostCenterDistributionDet");
+
             builder.EntitySet<CostCenterDistributionDet>("CostCenterDistributionDet");
             builder.EntitySet<Vouchers>("Vouchers");
             builder.EntitySet<Trans>("Trans");

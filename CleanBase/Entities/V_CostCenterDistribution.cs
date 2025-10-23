@@ -12,14 +12,13 @@ using System.Threading.Tasks;
 
 namespace CleanBase.Entities
 {
-    public class CostCenterDistribution : EntityRoot
+    public class V_CostCenterDistribution : EntityRoot
     {
 
         public string? CostCenterElementsId { get; set; }
-        [NotMapped]
         public string? CostCenterElementsName { get; set; }
 
-        public List<CostCenterDistributionDet> CostCenterDistributionDet { get; set; } = new List<CostCenterDistributionDet>();
+        public List<V_CostCenterDistributionDet> CostCenterDistributionDet { get; set; } = new List<V_CostCenterDistributionDet>();
 
     }
 
