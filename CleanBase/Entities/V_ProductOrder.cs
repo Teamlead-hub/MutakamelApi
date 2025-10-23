@@ -61,6 +61,7 @@ namespace CleanBase.Entities
         public int? HasPerfume { get; set; }
         public int? HasColor { get; set; }
         public decimal? TotalRawMaterialQty { get; set; }
+        public string? BatchNo { get; set; }
 
         public List<V_ProductOrderPackaging> ProductOrderPackaging { get; set; } = new List<V_ProductOrderPackaging>();
 

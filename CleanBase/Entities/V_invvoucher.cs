@@ -78,6 +78,7 @@ namespace CleanBase.Entities
         public string? StartingTime { get; set; }
         public string? EndingTime { get; set; }
         public string? WorkingHours { get; set; }
+        public string? BatchNo { get; set; }
         public List<V_mvts> Mvts { get; set; } = new List<V_mvts>();
 
     }

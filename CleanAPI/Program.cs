@@ -241,6 +241,7 @@ namespace CleanAPI
             builder.Services.AddScoped<IV_ProductStock_PackageService, V_ProductStock_PackageService>();
             builder.Services.AddScoped<IV_ProductBatchesService, V_ProductBatchesService>();
             builder.Services.AddScoped<IV_ProductsBarcodesService, V_ProductsBarcodesService>();
+            builder.Services.AddScoped<IV_ProductsSaleService, V_ProductsSaleService>();
 
 
             builder.Services.AddScoped<IProductsService, ProductsService>();
@@ -524,6 +525,10 @@ namespace CleanAPI
             builder.Services.AddScoped<ISafetyOther, SafetyOtherService>();
 
             builder.Services.AddScoped<IV_SupplierInfo, V_SupplierInfoService>();
+
+            builder.Services.AddScoped<IV_SupContactInfo, V_SupContactInfoService>();
+            builder.Services.AddScoped<IV_SupContractInfo, V_SupContractInfoService>();
+
 
             builder.Services.AddScoped<IInternalPurchaseOrderMain, InternalPurchaseOrderMainService>();
             builder.Services.AddScoped<IInternalPurchaseOrderDet, InternalPurchaseOrderDetService>();
@@ -923,6 +928,7 @@ namespace CleanAPI
             builder.EntitySet<V_ProductStock_Package>("V_ProductStock_Package");
             builder.EntitySet<V_ProductBatches>("V_ProductBatches");
             builder.EntitySet<V_ProductsBarcodes>("V_ProductsBarcodes");
+            builder.EntitySet<V_ProductsSale>("V_ProductsSale");
 
             builder.EntitySet<Products>("Products");
             builder.EntitySet<Productstest>("Productstest");
@@ -1201,6 +1207,8 @@ namespace CleanAPI
             builder.EntitySet<RiskCategory>("RiskCategory");
 
             builder.EntitySet<V_SupplierInfo>("V_SupplierInfo");
+            builder.EntitySet<V_SupContactInfo>("V_SupContactInfo");
+            builder.EntitySet<V_SupContractInfo>("V_SupContractInfo");
 
             builder.EntitySet<InternalPurchaseOrderMain>("InternalPurchaseOrderMain");
             builder.EntitySet<InternalPurchaseOrderDet>("InternalPurchaseOrderDet");

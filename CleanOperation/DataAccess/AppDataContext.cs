@@ -262,7 +262,10 @@ namespace CleanOperation.DataAccess
 
             modelBuilder.Entity<V_ProductSpecs>().ToView("V_ProductSpecs");
             modelBuilder.Entity<V_ProductSpecs>().HasOne(r => r.Product);
-            
+
+            modelBuilder.Entity<V_ProductsSale>().ToView("V_ProductsSale");
+            modelBuilder.Entity<V_ProductsSale>().HasOne(r => r.Product);
+
             modelBuilder.Entity<V_ProductsRaw>().ToView("V_ProductsRaw");
             modelBuilder.Entity<V_ProductsRaw>().HasOne(r => r.Product);
 
@@ -615,6 +618,9 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<SafetyOther>().ToTable("SafetyOther");
             modelBuilder.Entity<SafetyToxicity>().ToTable("SafetyToxicity");
             modelBuilder.Entity<V_SupplierInfo>().ToView("V_SupplierInfo");
+
+            modelBuilder.Entity<V_SupContactInfo>().ToView("V_SupContactInfo");
+            modelBuilder.Entity<V_SupContractInfo>().ToView("V_SupContractInfo");
 
             modelBuilder.Entity<InternalPurchaseOrderMain>().ToTable("InternalPurchaseOrderMain");
             modelBuilder.Entity<InternalPurchaseOrderDet>().ToTable("InternalPurchaseOrderDet");

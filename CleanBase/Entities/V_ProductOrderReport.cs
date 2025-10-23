@@ -35,7 +35,18 @@ namespace CleanBase.Entities
         public string? MixReportId { get; set; }
         public decimal? TotalRawMaterialQty { get; set; }
         public string? BatchNo { get; set; }
+        public string? StartingTime { get; set; }
+        public string? EndingTime { get; set; }
+        public string? WorkingHours { get; set; }
         public decimal? Wastagerate { get; set; }
+
+        public string? FactoryId { get; set; }
+        public string? FactoryName { get; set; }
+        public string? ProductLine { get; set; }
+        public string? ProductLineName { get; set; }
+        public string? ProductManager { get; set; }
+
+
         public List<V_ProductOrderReportRaw> ProductOrderReportRaw { get; set; } = new List<V_ProductOrderReportRaw>();
         public List<V_ProductOrderReportPackaging> ProductOrderReportPackaging { get; set; } = new List<V_ProductOrderReportPackaging>();
         public List<V_ProductOrderReportWages> ProductOrderReportWages { get; set; } = new List<V_ProductOrderReportWages>();
