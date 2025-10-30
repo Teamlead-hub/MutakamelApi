@@ -29,6 +29,7 @@ namespace CleanBase.Entities
         public DateOnly? DateProduct { get; set; }
         public string? ProductOrderReportId { get; set; }
         public string? BatchNo { get; set; }
+        public int? RecordUsed { get; set; }
 
         public List<V_ProductOrder_mvts> mvts { get; set; }=new List<V_ProductOrder_mvts>();
     }

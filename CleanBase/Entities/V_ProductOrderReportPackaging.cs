@@ -21,6 +21,7 @@ namespace CleanBase.Entities
         public decimal? Tax { get; set; }
         public int? StockBatchNo { get; set; }
         public string? StoreNo { get; set; }
+        public string? StoreName { get; set; }
         public decimal? ActualQty { get; set; }
         public decimal? RestQty { get; set; }
         public decimal? WastedQty { get; set; }
@@ -29,5 +30,7 @@ namespace CleanBase.Entities
         public decimal? ExpectedCartonQuantity { get; set; }
         public string? PackageWeight { get; set; }
         public decimal? Weight { get; set; }
+        public string? PackagingStockId { get; set; }
+        public string? PackagingType { get; set; }
     }
 }

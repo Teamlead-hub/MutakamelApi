@@ -15,7 +15,9 @@ namespace CleanBase.Entities
     public class V_SupEvaluationInfo : EntityRoot
     {
 
+        public string? EvalutionTypesId { get; set; }
         public string? EvaluationName { get; set; }
+        public string? EvaluationNameEn { get; set; }
         public string? SupplierInfoId { get; set; }
         public string? InvVoucherId { get; set; }
 
