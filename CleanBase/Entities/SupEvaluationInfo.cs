@@ -15,7 +15,13 @@ namespace CleanBase.Entities
     public class SupEvaluationInfo : EntityRoot
     {
 
+        public string? EvalutionTypesId { get; set; }
+
+        [NotMapped]
         public string? EvaluationName { get; set; }
+
+        [NotMapped]
+        public string? EvaluationNameEn { get; set; }
 
         public string? SupplierInfoId { get; set; }
 

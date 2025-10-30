@@ -88,7 +88,6 @@ namespace CleanBase.Entities
         public string? ProductOrderReportId { get; set; }
         [NotMapped]
         public string? MixReportId { get; set; }
-        [NotMapped]
         public string? ProductOrderBatch { get; set; }
         public string? VchrSuppInvRet { get; set; }
         public string? StartingTime { get; set; }

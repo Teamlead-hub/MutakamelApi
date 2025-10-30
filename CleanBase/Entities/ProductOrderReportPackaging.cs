@@ -42,6 +42,8 @@ namespace CleanBase.Entities
         public decimal? ActualCartonQuantity { get; set; }
         [NotMapped]
         public decimal? ExpectedCartonQuantity { get; set; }
+        public string? PackagingStockId { get; set; }
+        public string? PackagingType { get; set; }
 
     }
 }

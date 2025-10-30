@@ -65,7 +65,8 @@ namespace CleanBase.Entities
         public string? ProductLineName { get; set; }
         [NotMapped]
         public string? ProductManager { get; set; }
-
+        [NotMapped]
+        public int? RecordReceived { get; set; }
         public List<ProductOrderReportRaw> ProductOrderReportRaw { get; set; } = new List<ProductOrderReportRaw>();
         public List<ProductOrderReportPackaging> ProductOrderReportPackaging { get; set; } = new List<ProductOrderReportPackaging>();
         public List<ProductOrderReportWages> ProductOrderReportWages { get; set; } = new List<ProductOrderReportWages>();

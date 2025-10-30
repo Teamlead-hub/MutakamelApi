@@ -56,6 +56,7 @@ namespace CleanBase.Entities
 
         public int? SampleTestResult { get; set; }
         public string? PackagingStockId { get; set; }
+        public string? PackagingType { get; set; }
         public decimal? ExpectedCartonQuantity { get; set; }
         public decimal? packageQuantity { get; set; }
     }

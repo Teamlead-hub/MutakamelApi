@@ -46,7 +46,8 @@ namespace CleanBase.Entities
         public string? ProductLineName { get; set; }
         public string? ProductManager { get; set; }
 
-
+        public int? RecordUsed { get; set; }
+        public int? RecordReceived { get; set; }
         public List<V_ProductOrderReportRaw> ProductOrderReportRaw { get; set; } = new List<V_ProductOrderReportRaw>();
         public List<V_ProductOrderReportPackaging> ProductOrderReportPackaging { get; set; } = new List<V_ProductOrderReportPackaging>();
         public List<V_ProductOrderReportWages> ProductOrderReportWages { get; set; } = new List<V_ProductOrderReportWages>();
