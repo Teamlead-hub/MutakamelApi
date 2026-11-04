@@ -179,7 +179,7 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<ProductLine>().ToTable("ProductLine");
             modelBuilder.Entity<V_ProductLine>().ToView("V_ProductLine");
 
-            //Stock  
+            //Stock
 
             //Tables
             //To Save, Update and Delete on the tables
@@ -796,6 +796,10 @@ namespace CleanOperation.DataAccess
             modelBuilder.Entity<WeeklyPlanMain>().ToTable("WeeklyPlanMain");
             modelBuilder.Entity<WeeklyPlanDet>().ToTable("WeeklyPlanDet");
             modelBuilder.Entity<WeeklyPlanDet>().HasOne(r => r.WeeklyPlanMain).WithMany(t => t.WeeklyPlanDet).HasForeignKey(t => t.WeeklyPlanMainId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<WeeklyPlanDetEmployees>().ToTable("WeeklyPlanDetEmployees");
+            modelBuilder.Entity<WeeklyPlanDetEmployees>().HasOne(r => r.WeeklyPlanDet).WithMany(t => t.WeeklyPlanDetEmployees).HasForeignKey(t => t.WeeklyPlanDetId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<V_WeeklyPlanDetEmployees>().ToView("V_WeeklyPlanDetEmployees");
+            modelBuilder.Entity<V_ActiveProductionEmployees>().ToView("V_ActiveProductionEmployees");
 
             modelBuilder.Entity<V_WeeklyPlanMain>().ToView("V_WeeklyPlanMain");
             modelBuilder.Entity<V_WeeklyPlanDet>().ToView("V_WeeklyPlanDet");

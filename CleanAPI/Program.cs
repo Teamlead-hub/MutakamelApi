@@ -645,6 +645,8 @@ namespace CleanAPI
 
             builder.Services.AddScoped<IV_WeeklyPlanMainService, V_WeeklyPlanMainService>();
             builder.Services.AddScoped<IV_WeeklyPlanDetService, V_WeeklyPlanDetService>();
+            builder.Services.AddScoped<IV_WeeklyPlanDetEmployeesService, V_WeeklyPlanDetEmployeesService>();
+            builder.Services.AddScoped<IV_ActiveProductionEmployeesService, V_ActiveProductionEmployeesService>();
             builder.Services.AddScoped<IV_voucherAccounts, V_voucherAccountsService>();
 
 
@@ -1320,6 +1322,9 @@ namespace CleanAPI
 
             builder.EntitySet<V_WeeklyPlanMain>("V_WeeklyPlanMain");
             builder.EntitySet<V_WeeklyPlanDet>("V_WeeklyPlanDet");
+            builder.EntitySet<WeeklyPlanDetEmployees>("WeeklyPlanDetEmployees");
+            builder.EntitySet<V_WeeklyPlanDetEmployees>("V_WeeklyPlanDetEmployees");
+            builder.EntitySet<V_ActiveProductionEmployees>("V_ActiveProductionEmployees");
             builder.EntitySet<V_voucherAccounts>("V_voucherAccounts");
 
 

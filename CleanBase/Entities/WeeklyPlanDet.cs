@@ -19,5 +19,7 @@ namespace CleanBase.Entities
         [JsonConverter(typeof(DateOnlyJsonConverter))]
         public DateOnly? date { get; set; }
         public WeeklyPlanMain? WeeklyPlanMain { get; set; }
+
+        public List<WeeklyPlanDetEmployees> WeeklyPlanDetEmployees { get; set; } = new List<WeeklyPlanDetEmployees>();
     }
 }
